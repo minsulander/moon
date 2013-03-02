@@ -1,0 +1,19 @@
+/**
+\defgroup audio Audio
+Audio functionality.
+
+Includes the maudio library and plugin.
+Relies on OpenAL for audio rendering.
+*/
+
+/// @{
+
+/** 
+\namespace maudio
+\brief The namespace containing audio functionality for the moon engine.
+*/
+
+/// @}
+
+
+

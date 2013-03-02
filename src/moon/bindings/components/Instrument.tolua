@@ -1,0 +1,9 @@
+$#include <moon/components/Instrument.h>
+
+namespace moon {
+
+	class Instrument : public VisualModel {
+		osgText::Text* getLabel(const std::string& name);
+	};
+
+}

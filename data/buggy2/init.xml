@@ -1,0 +1,12 @@
+<moon>
+	<Environment>
+		<lighting mode="skylight"/>
+		<fog color="0.6,0.6,0.7,0.5" start="500" end="5000"/>
+	</Environment>
+
+	<include file="config.xml"/>
+	<include file="templates.xml"/>
+	<include file="road/templates.xml"/>
+	<include file="scenario.xml"/>
+	
+</moon>

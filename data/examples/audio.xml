@@ -1,0 +1,27 @@
+<moon>
+
+	<Source name="test" file="audio/test/test.wav"/>
+	<ToneSource name="tone" play="true">
+        <tone waveform="sine" freq="400" length="1" gain="0.05"/>
+        <tone waveform="square" freq="800" length="0.5" gain="0.005"/>
+        <prf freq="10"/>
+	</ToneSource>
+	<Stream name="music" file="audio/starhop.mp3" play="true" gaindb="-20"/>
+		
+	<Scenario name="Audio Example">
+		<Kinematic name="ball" model="buggydemo/soccerball.ac">
+			<!--<Stream name="music" file="audio/starhop-mono.mp3" play="true" loop="true" refdistance="5"/>-->
+			<Source file="audio/PlaneMove.ogg" play="true" loop="true" refdistance="2"/>
+			<animation>
+				<at t="0" pos="-10 10 0"/>
+				<at t="0.5" pos="0 5 0"/>
+				<at t="1" pos="10 10 0"/>
+				<at t="2" pos="10 -10 0"/>
+				<at t="3" pos="-10 -10 0"/>
+				<at t="4" pos="-10 10 0"/>
+			</animation>
+		</Kinematic>
+		<Camera><fov value="70"/></Camera>
+	</Scenario>
+	
+</moon>

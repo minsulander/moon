@@ -1,0 +1,3 @@
+$pfile "../../moon/bindings/disable_msvc_warnings.tolua"
+$pfile "AudioManager.tolua"
+$pfile "Sound.tolua"

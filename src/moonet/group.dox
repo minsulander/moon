@@ -1,0 +1,15 @@
+/**
+\ingroup core
+\defgroup net Network
+Network engine functionality. Provides a replica network based on RakNet (or a set of empty
+wrapper classes if RakNet is not desired).
+*/
+
+//@{
+
+/** 
+\namespace moonet
+\brief The namespace for network functionality
+*/
+
+//@}

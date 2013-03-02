@@ -1,0 +1,10 @@
+$#include <moon/Plugin.h>
+
+namespace moon {
+	class Plugin {
+		virtual const char* getName();
+		virtual const char* getDescription();
+		virtual const char* getAuthor();
+		virtual float getVersion();
+	};
+}

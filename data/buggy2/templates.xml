@@ -1,0 +1,158 @@
+<moon>
+	<templates>
+	
+		<Buggy name="QuickBuggy">
+			<remote mode="dynamic" children="false"/>
+
+			<!-- Buggy parameters -->
+
+			<rollmax value="200" unit="radian/second"/>
+			<swayforce value="100"/>
+			<brake value="1000"/>
+			<drag value="5"/>
+			<aeroload value="-0.4"/>
+
+			<Table target="drivetorque">-50:0 0:100 250:0</Table>
+			<Table target="steerangle">-30:3 -1:10 0:40 5:30 30:20</Table>
+			<Table target="rsteerangle">-30:20 -5:30 -1:40 0:10 30:3 50:0</Table>
+
+			<!-- Body -->
+
+			<Model file="berline_body.ac" yup="true" pos="0 0 -0.45" tag="exterior"/>
+			<Model file="berline_interior.ac" yup="true" pos="0 0 -0.45" tag="interiorUGH"/>
+			<Geometry cc="false" material="chassis">
+				<box sides="2 4.5 0.5" pos="0 0 0.25"/>
+				<box sides="1.8 2 0.5" pos="0 0.7 0.5" att="0 -15 0"/>
+				<box sides="1.8 2.2 0.5" pos="0 -1.3 0.5" att="0 10 0"/>
+			</Geometry>
+			<Body>
+				<mass value="40"/>
+				<box sides="1.5 4 1"/>
+			</Body>
+			<Drag cd="0.05" debugscale="0.1"/>
+
+			<!-- Wheels and suspension -->
+
+			<templates>					
+				<Dynamic name="BuggyWheel">
+					<remote angvel="false"/>
+					<Model file="berline_wheel.ac"/>
+					<Geometry cc="false" material="wheelrub">
+						<sphere radius="0.375"/>
+					</Geometry>
+					<Body>
+						<mass value="2.5"/>
+						<cylinder radius="0.5" length="0.5" direction="1"/>
+					</Body>
+					<Source name="RollingSound" file="audio/PlaneMove.ogg" loop="true" refdistance="1" trigger="play/stop">
+						<Table param="contact" target="gain">0:0 1:0.5 10:1</Table>
+						<Table param="rotspeed" target="pitch">0:0 1:0.5 150:1.5</Table>
+					</Source>
+					<Source name="SkidSound" file="audio/tire-squeal.wav" loop="true" refdistance="1" trigger="play/pause">
+						<Table param="contact" target="gain">0:0 1:0.01 10:1</Table>
+						<Table param="speed_x" target="gain">-20:1 -10:0 0:0 10:0 20:1</Table>
+					</Source>
+				</Dynamic>
+				<Joint name="FrontJoint" type="hinge2">
+					<axis value="0,0,1"/>
+					<axis2 value="1,0,0"/>
+					<spring value="10000"/>
+					<damp value="50"/>
+					<!--<maxforce value="5000"/>-->
+					<!--<maxforce2 value="40"/>-->
+					<!--<stop lo="-45" hi="45" unit="degree"/>-->
+					<stop lo="-0" hi="0"/>
+				</Joint>
+				<Joint name="RearJoint" type="hinge2">
+					<axis value="0,0,1"/>
+					<axis2 value="1,0,0"/>
+					<spring value="8000"/>
+					<damp value="70"/>
+					<!--<maxforce value="500"/>-->
+					<!--<maxforce2 value="80"/>-->
+					<stop lo="-0" hi="0"/>
+				</Joint>
+			</templates>				
+			<BuggyWheel name="wheel_lf" tag="wheel drive steer"        pos="-0.95  1.55 -0.1"/>
+			<BuggyWheel name="wheel_rf" tag="wheel drive steer"        pos=" 0.95  1.55 -0.1"/>
+			<BuggyWheel name="wheel_lr" tag="wheel drive brake rsteer" pos="-0.95 -1.6 -0.1"/>
+			<BuggyWheel name="wheel_rr" tag="wheel drive brake rsteer" pos=" 0.95 -1.6 -0.1"/>
+			<FrontJoint name="suspension_lf" connect="wheel_lf" anchor="-0.7  1.55 -0.1"/>
+			<FrontJoint name="suspension_rf" connect="wheel_rf" anchor=" 0.7  1.55 -0.1"/>
+			<RearJoint name="suspension_lr" connect="wheel_lr"  anchor=" -0.7 -1.6 -0.1"/>
+			<RearJoint name="suspension_rr" connect="wheel_rr"  anchor="  0.7 -1.6 -0.1"/>
+			
+			<!-- Cameras -->
+
+			<templates>
+				<BarGraph name="Spedometer" tag="hud normalized" vertical="true" 
+						length="0.3" width="0.05" spacing="0.005" color="0.5 1 0.5 0.5"
+						markwidth="0.08" markthick="0.005">
+					<Table param="root speed" target="bar">0:0 60:1</Table>
+					<label pos="0 -0.17 0" size="0.04" align="center_top">speed</label>
+					<text name="text" align="center_center" pos="0 -0.25 0">%03.f</text>
+					<Modifier target="text" param="root speed" ratio="3.6"/>
+				</BarGraph>
+			</templates>
+			<Dynamic name="cambody" pos="0.35 0 0.75" intersect="false">
+				<Body><mass value="1"/><box sides="1,1,1"/></Body>
+				<Joint type="universal" anchor="0,-0.5,-0.5" axis="1,0,0" axis2="0,1,0">
+					<spring value="300"/>
+					<damp value="10"/>
+					<spring2 value="500"/>
+					<damp2 value="15"/>
+				</Joint>
+				<Camera name="drivercam" tag="driver" fov="50" nearclip="0.1" farclip="20000" hudcoord="deg" free="false" speed="0.1">
+					<yaw unit="degree" min="-90" max="90"/>
+					<pitch unit="degree" min="-20" max="40"/>
+					<roll unit="degree" min="-10" max="10"/>
+					<forward min="-0.1" max="0.5"/>
+					<right min="-0.3" max="0.3"/>
+					<up min="-0.3" max="0.3"/>
+	
+					<Spedometer pos="70 -15 0"/>
+				</Camera>
+			</Dynamic>
+			<Camera name="trackcam" tag="track" pos="0,-20,5" free="true"> <!-- infolevel="3"/> -->
+				<Spedometer pos="0.9 0 0">
+						<Table param="tracktarget speed" target="bar">0:0 60:1</Table>
+						<Modifier target="text" param="tracktarget speed" ratio="3.6"/>
+				</Spedometer>
+			</Camera>
+			
+			<!-- Sound -->
+
+			<Source name="drive" file="audio/hydraulic.aif" pos="0 1 0.2" loop="true" trigger="play/stop" refdistance="10">
+				<Table param="drivetorque" target="gain">-300:0.5 0:0.1 300:0.5</Table>
+				<Table param="driverotspeed" target="gain">-20:1 -0.5:1 0:0 0.5:1 20:1</Table>
+				<Table param="driverotspeed" target="pitch">-200:1.5 0:0.5 200:1.5</Table>
+			</Source>
+			<Source name="suspsound_lf" file="audio/suspension.wav" trigger="play" pos="-1 1.4 -0.1">
+				<Table param="suspension_lf force" target="gain">0:0 1500:0 10000:1</Table>
+			</Source>
+			<Source name="suspsound_rf" file="audio/suspension.wav" trigger="play" pos="1 1.4 -0.1">
+				<Table param="suspension_rf force" target="gain">0:0 1500:0 10000:1</Table>
+			</Source>
+			<Source name="suspsound_lr" file="audio/suspension.wav" trigger="play" pos="-1 -1.4 -0.1" pitch="0.8">
+				<Table param="suspension_lr force" target="gain">0:0 300:0 10000:1</Table>
+			</Source>
+			<Source name="suspsound_rr" file="audio/suspension.wav" trigger="play" pos="1 -1.4 -0.1" pitch="0.8">
+				<Table param="suspension_rr force" target="gain">0:0 300:0 10000:1</Table>
+			</Source>
+		</Buggy>
+
+		<Static name="GroundPlane" tag="noselect">
+			<Geometry>
+				<plane normal="0 0 1"/>
+			</Geometry>
+			<TexturePlane image="grass.jpg" texscale="20" nofog="true" color="0.5 0.5 0.5 1"/>
+		</Static>
+			
+		<Static name="Jump" att="0 10 0">
+			<Geometry>
+				<box sides="10 100 3"/>
+			</Geometry>
+		</Static>
+
+	</templates>
+</moon>

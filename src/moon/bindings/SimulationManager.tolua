@@ -1,0 +1,21 @@
+$#include <moon/SimulationManager.h>
+
+namespace moon {
+
+	class SimulationManager {
+		
+		double getTimeStep();
+		void setTimeStep(const double value);
+		void setPaused(const bool value);
+		bool isPaused();
+		void setTime(const double time);
+		double getTime();
+		double getGameTimeOffset();
+		double getViewerTimeOffset();
+		double getTimeScale();
+		void setTimeScale(const double ratio);
+		
+		static SimulationManager& instance();
+	};
+	
+}

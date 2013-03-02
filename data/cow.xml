@@ -1,0 +1,44 @@
+<moon>
+	<Configuration>
+		<plugin name="test"/>
+		<plugin name="maudio"/>
+	</Configuration>
+
+	<templates>
+		<KinematicObject name="cow">
+				<VisualModel file="cow.osg" xforward="true"/>
+				<maudio_SingleSource name="boomzigga" file="audio/drumloop.wav" loop="true" refdistance="10" play="true">
+					<cone inner="20" outer="180" outgain="0.02"/>
+				</maudio_SingleSource>
+				<Source name="annoy" file="audio/pop.wav" loop="true" gain="1" play="true">
+					<Table param="speed" target="pitch">
+						0  0.2
+						10 1.5
+					</Table>
+					<Smooth param="speed" target="pitch" maxdelta="0.1"/>
+				</Source>
+			<animation loopmode="swing">
+				<at t="0" pos="-10,5,-5" att="330,0,0"/>
+				<at t="2" pos="-8,3,2" att="30,0,0"/>
+				<at t="3" pos="5,-1,5" att="90,0,0"/>
+				<at t="5" pos="10,-5,10" att="170,0,0"/>
+			</animation>
+		</KinematicObject>
+	</templates>
+
+	<Scenario name="COW">
+		<objects>
+			<cow/>
+			<cow pos="10,0,10" att="45,0,0"/>
+			<Camera name="camera" pos="10,-20,10">
+				<free value="true"/>
+				<fov value="50"/>
+			</Camera>
+		</objects>
+		<script>
+			function event.scenarioRealize()
+				--objects.camera:track(object.cow,moon.Camera.POINT)
+			end
+		</script>
+	</Scenario>	
+</moon>

@@ -1,0 +1,20 @@
+$#include <moon/Control.h>
+
+namespace moon {
+
+	class Control {
+		enum ControlType {
+			MOMENTARY,
+			TOGGLE,
+			AXIS
+		};
+		
+		virtual void setValue(const float newvalue);
+		const float getValue();
+		void setType(ControlType& newtype);
+		ControlType& getType();
+		void setName(const std::string& newname);
+		const std::string& getName();
+	};
+	
+}

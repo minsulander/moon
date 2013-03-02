@@ -1,0 +1,75 @@
+<moon>
+
+	<include file="config.xml"/>
+	<include file="../buggydemo/templates.xml"/>
+
+<Scenario name="TerrainDemo">
+	<objects netmode="common">
+
+		<Static name="ground" model="smallL3DTtest1.ive" tag="noselect" pos="0,0,-94.5">
+			<Geometry>
+				<mesh model="smallL3DTtest1_height.ive"/>
+				<!--<heightfield model="smallL3DTtest1_height.ive"/>-->
+				<!--<heightfield image="L3DTtest1/L3DTtest1_HF2.png" hscale="10" vscale="655.15"/>-->
+			</Geometry>
+			<VegetationLayer name="trees" image="smallL3DTtest1_Alpha_5.png">
+				<layer density="20000" model="models/vegetation/bionatics/Cottonwood_eastern_26_1.ive.gz" range="2500" georange="200"/>
+				<Geometry>
+					<capsule radius="1.5" length="6" pos="0,0,3"/>
+				</Geometry>
+			</VegetationLayer>
+			<VegetationLayer name="trees" image="smallL3DTtest1_Alpha_5.png">
+				<layer density="30000" model="models/vegetation/bionatics/Cottonwood_eastern_37_1.ive.gz" range="400" georange="200"/>
+				<Geometry>
+					<capsule radius="1.5" length="6" pos="0,0,3"/>
+				</Geometry>
+			</VegetationLayer>
+			<VegetationLayer name="trees" image="smallL3DTtest1_Alpha_5.png">
+				<layer density="30000" model="models/vegetation/bionatics/Cottonwood_eastern_31_1.ive.gz" range="600" georange="200"/>
+				<Geometry>
+					<capsule radius="1.5" length="6" pos="0,0,3"/>
+				</Geometry>
+			</VegetationLayer>
+			<VegetationLayer name="trees" image="smallL3DTtest1_Alpha_6.png">
+				<layer density="1000" model="models/vegetation/bionatics/Maple_silver_alone_16_1.ive.gz" range="3000" georange="200"/>
+				<Geometry>
+					<capsule radius="1.5" length="6" pos="0,0,3"/>
+				</Geometry>
+			</VegetationLayer>
+			<VegetationLayer name="shrubs" image="smallL3DTtest1_Alpha_5.png">
+				<layer density="500000" model="models/vegetation/bionatics/Grape_oregon_4_1.ive.gz" range="200" align="true"/>
+			</VegetationLayer>
+		</Static>
+		<KinematicObject name="watermove" tag="noselect">
+			<animation loopmode="swing">
+				<at t="0" pos="0,0,0"/>
+				<at t="2" pos="0,0,-0.1"/>
+				<at t="5" pos="0,0,-0.4"/>
+				<at t="7" pos="0,0,-0.5"/>
+			</animation>
+			<TexturePlane name="water" width="10240" length="10240" pos="5120, 5120.5,-0.3" 
+				image="water.jpg" color="0.4,0.5,0.5,0.3" texscale="500" panvel="0.5,1,0"/>
+			<TexturePlane name="water" width="10240" length="10240" pos="5120, 5120,0" 
+				image="water.jpg" color="0.4,0.5,0.5,0.2" texscale="500" panvel="1,2,0"/>
+		</KinematicObject>
+		
+
+		<SkyDome name="Sky" image="textures/sky/dome/dayfair.jpg" tag="noselect"/>
+		<TexturePlane name="clouds" width="100000" length="100000" pos="0,0,1000" 
+			image="clouds.png" color="1,1,1,1" texscale="8000" panvel="30,10,0" nofog="true" nolight="true"/>
+
+		<Environment>
+			<lighting mode="skylight"/>
+			<fog color="0.6,0.6,0.7,0.5" start="3000" end="5000"/>
+		</Environment>
+
+		<Camera name="camera" pos="4800, 730, 200" att="330,-10,0">
+			<free value="true"/>
+			<fov value="50"/>
+			<clip near="1" far="10000"/>
+		</Camera>
+
+	</objects>
+	
+</Scenario>
+</moon>

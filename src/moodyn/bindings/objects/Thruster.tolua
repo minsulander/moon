@@ -1,0 +1,11 @@
+$#include <moodyn/objects/Thruster.h>
+
+namespace moodyn {
+
+	class Thruster : public DynamicVehicle {
+		bool isOnGround() const { return groundContact; }
+		bool isControlsFlipped() const { return flippedControls; }
+		bool isRecoveringFCS() const { return fcsRecovery; }
+	};
+
+}

@@ -1,0 +1,21 @@
+/**
+\defgroup dynamics Dynamics
+
+Various dynamics functionality.
+
+Rigid body dynamics is implemeted using ODE (Open Dynamics Engine) and moodyn provides a wrapper
+interface which provides convenient integration with OpenSceneGraph.
+
+Other parts, such as atmospheric properties, some control systems simulation etc are also included.
+
+Eventually the ODE dependency will probably be abstracted and split up. <b>Expect API changes.</b>
+*/
+
+/// @{
+
+/** 
+\namespace moodyn
+\brief The namespace containing dynamics functionality.
+*/
+
+/// @}

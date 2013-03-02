@@ -1,0 +1,239 @@
+<moon>
+	<Configuration>
+		<plugin name="moodyn"/>
+	</Configuration>
+	
+	<Controls>
+		<joystick name="P880" axis="0" control="Turn"/>
+		<joystick name="P880" axis="1" control="Accelerate" invert="true"/>
+		<joystick name="P880" button="2" control="CameraMode" />
+	</Controls>
+	
+	<DynamicsConfiguration>
+		<contacts>
+			<contact material1="wheelrub" material2="default">
+				<mu value="100"/>
+				<soft_erp value="0.8"/>
+				<soft_cfm value="0.01"/>
+				<approx1 value="true"/>
+				<slip1 value="0.001"/>
+				<slip2 value="0.01"/>
+			</contact>
+		</contacts>
+		<refmass value="10"/>
+	</DynamicsConfiguration>
+	
+	
+		<templates>
+		
+			<Dynamic name="Box">
+				<Model file="models/props/boxes/crates/crate05.flt" pos="0,0,-0.5"/>
+				<Model file="models/props/boxes/crates/crate01.flt" pos="0,0,-0.5" tag="destroyed" hidden="true"/>
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+				<Body>
+					<mass value="10"/>
+					<box sides="1,1,1"/>
+				</Body>
+				<Script>
+					function self:onInitialize()
+						print("init " .. self:getName())
+						self.numcontacts = 0
+					end
+					self.onReset = self.onInitialize
+					function self:onContact(other)
+						if (objects.Box_10 and other:id() == objects.Box_10:id()) then
+							return false
+						end
+						self.numcontacts = self.numcontacts + 1
+						if (self.numcontacts == 100) then
+							mdraw.notify(self:getName() .. " has 100 contacts")
+						end
+						return true
+					end
+					function self:onContactFeedback()
+						if (math.abs(self:getGeometry():getContactForce():length())*sim:getTimeStep() > 300) then
+							mdraw.notify(self:getName() .. " says BOOM!")
+							self:destroy()
+						end
+					end
+				</Script>
+
+				<damage category="contact" threshold="100" ratio="0.5"/>
+				<damage category="explosion" ratio="1"/>
+				<destruction  unrealize="0.5" hide="1"/>
+				<Explosion>
+					<debris/>
+					<shock force="2000"/>
+				</Explosion>
+				
+				<Drag/>
+			</Dynamic>
+			
+			<Dynamic name="BallBox">
+				<templates>
+					<Dynamic name="Box">
+						<Body>
+							<mass value="2"/>
+							<box sides="1,1,1"/>
+						</Body>
+						<Geometry>
+							<box sides="1,1,1"/>
+						</Geometry>
+					</Dynamic>
+				</templates>
+				<Body>
+					<mass value="500"/>
+					<sphere radius="1"/>
+				</Body>
+				<Geometry>
+					<sphere radius="1"/>
+				</Geometry>
+
+				<Box name="box1" pos="4,0,0">
+					<Static name="box1ball" pos="0,0,-1.5">
+						<Geometry>
+							<sphere radius="0.5"/>
+						</Geometry>
+					</Static>
+				</Box>
+				<Box name="box2" pos="-4,0,0">
+					<Dynamic name="box2ball1" pos="0,-2,-0.5">
+						<Body>
+							<mass value="1"/>
+						</Body>
+						<Geometry>
+							<sphere radius="0.5"/>
+						</Geometry>
+					</Dynamic>
+					<Joint type="ball" anchor="0,-1,0" connect="box2ball1"/>
+				</Box>
+				<Box name="box3" pos="0,4,0"/>
+				<Box name="box4" pos="0,-4,0">
+				</Box>
+				<Joint name="box1joint" type="ball" anchor="1.5,1,0" connect="box1">
+					<breakforce value="100"/>
+				</Joint>
+				<Joint name="box2joint" type="hinge" anchor="-2.5,-1,0" axis="0,1,0" connect="box2"/>
+				<Joint name="box3joint" type="universal" anchor="0,1.5,1" axis="1,0,0" axis2="0,0,1" connect="box3"/>
+				<Joint name="box4joint" type="slider" axis="0,1,0" connect="box4">
+					<stop lo="-1" hi="3"/>
+				</Joint>
+				
+				<Box pos="0,0,5" name="boxy1">
+					<Joint type="hinge" axis="0,1,0" anchor="0,0,-2"/>
+				</Box>
+				<Box pos="0,0,10">
+					<Joint type="hinge" axis="0,1,0" anchor="2,0,-2" connect="boxy1"/>
+				</Box>
+			</Dynamic>
+			
+			<Dynamic name="JointedBox">
+				<Body>
+					<mass value="1"/>
+				</Body>
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+				<Joint type="hinge">
+					<anchor pos="5,0,5"/>
+					<axis value="0,1,0"/>
+				</Joint>
+			</Dynamic>
+			
+			<Static name="Springer">
+				<Geometry><box sides="0.5,0.5,4"/></Geometry>
+				<Dynamic name="SpringBoard" pos="-2.5,0,2">
+					<Body><mass value="10"/><box sides="4,2,0.3"/></Body>
+					<Geometry><box sides="4,2,0.3"/></Geometry>
+					<Joint type="hinge">
+						<anchor pos="2.5,0,0"/>
+						<axis value="0,1,0"/>
+						<spring value="5000"/>
+						<damp value="100"/>
+						<break value="50"/>
+					</Joint>
+				</Dynamic>
+			</Static>
+
+			<Static name="Dirt" model="delta3d/Environments/DemoDirt/GameReady/dirt.osg" geometry="mesh" tag="noselect" shadow="receive"/>
+
+		</templates>
+	
+	
+	<Scenario name="TestDynamics">
+	
+		<templates>
+			<Static name="Obstacle">
+				<Geometry>
+					<box sides="5,5,1"/>
+				</Geometry>
+				<Static name="obst_child" pos="0,0,1">
+					<Geometry>
+						<box sides="1.5,1.5,0.5"/>
+					</Geometry>
+					<damage category="contact" threshold="300" ratio="0.01"/>
+					<damage category="explosion" ratio="10"/>
+				</Static>
+			</Static>
+		</templates>
+
+		<Dirt/>
+		<Static name="ground" pos="0,0,-5" tag="noselect" shadow="none">
+			<Geometry>
+				<plane normal="0,0,1"/>
+			</Geometry>
+		</Static>
+		<Environment>
+			<lighting mode="skylight" ambient="0.1,0.1,0.1,1" diffuse="0.3,0.3,0.3,1"/>
+			<fog start="100" end="1000" color="0.4,0.4,0.7,1"/>
+			<shadow/>
+		</Environment>			
+
+		<Camera pos="0,-50,15" att="0, -15, 0">
+			<free value="true"/>
+		</Camera>
+		<Obstacle name="obst" pos="0,0,2"/>
+		<Box pos="-5,0,3"/>
+		<Box name="richardbox" pos="-4,0,4"/>
+		<Box pos="-3,0,5"/>
+		<Box pos="-2,0,6"/>
+		<Box pos="-1,0,7"/>
+		<Box pos="0,0,8"/>
+		<Box pos="1,0,9"/>
+		<Box pos="2,0,10"/>
+		<Box pos="3,0,11"/>
+		<Box pos="4,0,12"/>
+		<Box pos="5,0,13">
+			<joint type="ball" anchor="0,2,-5"/>
+		</Box>
+
+		<JointedBox pos="5,-4,5" att="90,0,0">
+			<Box pos="0,0,-2" name="box1">
+				<Joint type="ball" anchor="0,0,1"/>
+			</Box>
+			<Box pos="0,0,-4">
+				<Joint type="ball" anchor="0,0,1" connect="box1"/>
+			</Box>
+		</JointedBox>
+		<JointedBox pos="0,-5,5">
+			<Force>
+				<force value="0,0,5" rel="true" pos="1,0,0" relpos="false"/>
+			</Force>
+		</JointedBox>
+		<BallBox pos="-5,-15,5" att="40,20,-30">
+			<vel value="0,5,10"/>
+		</BallBox>
+		<Springer pos="10,-15,1"/>
+		<Box pos="6,-15,6"/>
+		<Box pos="7.5,-15,6"/>
+		
+		<Dynamic name="plate" pos="-10 -15 10" att="0,0,10">
+			<Geometry><box sides="1 5 0.1" pos="0,1,0"/></Geometry>
+			<Body><box sides="1 5 0.5"/></Body>
+			<Drag name="platedrag"/>
+		</Dynamic>
+		
+	</Scenario>
+</moon>

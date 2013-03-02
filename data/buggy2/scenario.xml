@@ -1,0 +1,63 @@
+<moon>
+    <Scenario name="buggy2">
+        <!-- Note: This is a saved scenario -->
+        <objects netmode="common">
+            <GroundPlane tag="noselect " pos="0, 0, -0.1" />
+            <SkyDome tag="noselect " pos="495.934, 284.213, 0" />
+            <Camera pos="-0.000412435, -30.0032, 4.97387" att="0.000820611, -8.54857, -3.80344e-19" free="1" fov="30.000000" aspect="1.600000" />
+
+            <road_w20_l20 />
+            <road_w20_l200 pos="0, 20, 0" />
+            <road_w20_l200_kerb pos="0, 20, 0" />
+            <road_w20_turn160 pos="0, 220, 0" />
+            <road_w20_turn160 pos="160, 380, 0" att="90, 0, -0" />
+            <road_w20_turn160_kerb pos="0, 220, 0" />
+            <road_w20_turn160_kerb pos="160, 380, 0" att="90, 0, -0" />
+            <road_w20_l200 pos="320, 20, 0" />
+            <road_w20_l20 pos="320, 0, 0" />
+            <road_w20_l200 pos="320, -200, 0" />
+            <road_w20_l200_kerb pos="320, 20, 0" />
+            <road_w20_l200_kerb pos="320, -200, 0" />
+            <road_w20_turn160 pos="320, -200, 0" att="180, 0, 0" />
+            <road_w20_turn160 pos="160, -360, 0" att="270, -0, 0" />
+            <road_w20_turn160_kerb pos="320, -200, 0" att="180, 0, 0" />
+            <road_w20_turn160_kerb pos="160, -360, 0" att="270, -0, 0" />
+            <road_w20_l200 pos="0, -200, 0" />
+            <road_w20_l200_kerb pos="0, -200, 0" />
+            <road_w20_l20 pos="300, 0, 0" />
+            <road_w20_l200 pos="290, 10, 0" att="270, -0, 0" />
+            <road_w20_l20 pos="20, 0, 0" />
+            <road_w20_l20 pos="40, 0, 0" />
+            <road_w20_l20 pos="60, 0, 0" />
+            <road_w20_l20 pos="80, 0, 0" />
+            <road_w20_l20_kerb pos="0, 20, 0" att="180, 0, 0" />
+            <road_w20_l20_kerb pos="320, 0, 0" />
+            <road_w20_exit_r pos="20, 10, 0" att="90, 0, -0" />
+            <road_w20_incline5 pos="60, -20, 0" att="90, 0, -0" />
+            <road_w20_turn40 pos="140, 20, 5" att="180, 0, 0" />
+            <road_w20_l80 pos="140, 20, 5" />
+            <road_w20_incline5 pos="140, 140, 0" att="180, 0, 0" />
+            <road_w20_turn40 pos="186, 200, 0" att="90, 0, -0" />
+            <road_w20_l80 pos="226, 160, 0" att="180, 0, 0" />
+            <road_w20_exit_r pos="306, 10, 0" att="270, -0, 0" />
+            <road_w20_turn40 pos="266, 40, 0" att="270, -0, 0" />
+            <road_w20_turn40 pos="140, 160, 0" att="1.00179e-05, 0, 0" />
+            <road_w20_l20 pos="140, 140, 0" />
+            <road_w20_turn40_kerb pos="140, 20, 5" att="180, 0, 0" />
+            <road_w20_turn40_kerb pos="140, 160, 0" att="1.00179e-05, 0, 0" />
+            <road_w20_turn40_kerb pos="186, 200, 0" att="90, 0, -0" />
+            <road_w20_turn40_kerb pos="266, 40, 0" att="270, -0, 0" />
+            <road_w20_l80_kerb pos="140, 20, 5" />
+            <road_w20_l80_kerb pos="226, 160, 0" att="180, 0, 0" />
+            <road_w20_incline5_kerb pos="60, -20, 0" att="90, 0, -0" />
+            <road_w20_incline5_kerb pos="140, 140, 0" att="180, 0, 0" />
+            <road_w20_l20_kerb pos="140, 140, 0" />
+            <road_w20_l20_kerb pos="140.537, 159.993, 0" att="180, 0, 0" />
+
+        </objects>
+        <objects netmode="server" spawn="true">
+            <QuickBuggy pos="5, 0, 0.47" />
+            <QuickBuggy pos="-5, 0, 0.47" />
+        </objects>
+    </Scenario>
+</moon>

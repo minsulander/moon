@@ -1,0 +1,23 @@
+$#include <moon/Viewer.h>
+
+namespace moon {
+
+	class Viewer {
+	
+		void setStatusText(const std::string& text);
+		void setBannerText(const std::string& text);
+
+		void setEditMode(const bool value);
+		bool isEditing() const;
+		
+		mdraw::ConsoleWindow* getConsoleWindow();
+		void showConsoleWindow(const bool value = true);
+		bool isConsoleWindowShown();
+		void frame();
+		
+		void setManipulator(const unsigned int value);
+		unsigned int getManipulator() const;
+		
+	};
+	
+}

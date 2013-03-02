@@ -1,0 +1,25 @@
+$#include <moonet/Client.h>
+
+namespace moonet {
+
+	enum ClientState {
+		CLIENT_INITIAL,
+		CLIENT_READY
+	};
+	
+	class Client {
+	public:
+		Player *getPlayer();
+		std::string toString();
+		bool isConnected();
+		ClientState getState();
+		
+		static Client *me();
+		static unsigned int getNumClients();
+		static Client *getClient(unsigned int index);
+		static bool isStillAround(Client *client);
+		static ClientState getMinimumClientState();
+		
+	};
+
+}

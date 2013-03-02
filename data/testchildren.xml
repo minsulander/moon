@@ -1,0 +1,36 @@
+<moon>
+	<Scenario name="TestChildren">
+	
+		<templates>
+			<Static name="Cow" model="cow.osg" xforward="true" geometry="bounds"/>
+			<Static name="CowTruck" model="dumptruck.osg" geometry="bounds">
+				<children>
+					<Static name="firstcow" model="cow.osg" pos="-5,0,10" geometry="mesh"/>
+					<Cow name="secondcow" pos="-15,0,10"/>
+					<Static name="box" pos="5,0,15">
+						<geometry>
+							<box sides="2,2,5"/>
+						</geometry>
+					</Static>
+					<Static name="nomodel" model="nomodel.osg" pos="5,-10,10"/>
+				</children>
+			</Static>
+			<Static name="Coord" model="ac3dcoordinates.ac" yup="true" geometry="bounds"/>
+		</templates>
+		
+		<objects>
+			<Static name="lz" model="lz.osg"/>
+			<CowTruck pos="0,0,125"/>
+			<Coord pos="0,-10,125"/>
+			<!--
+			<CowTruck/>
+			<Static name="COORD" model="ac3dcoordinates.ac" yup="true" pos="5,-5,125"/>
+			-->
+			<Camera pos="0,-50,130" att="-6, 0, 0">
+				<free value="true"/>
+				<fov value="50"/>
+			</Camera>
+		</objects>
+		
+	</Scenario>
+</moon>

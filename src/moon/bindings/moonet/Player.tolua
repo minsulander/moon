@@ -1,0 +1,15 @@
+$#include <moonet/Player.h>
+
+namespace moonet {
+
+class Player {
+public:
+	void setName(const std::string& newname);
+	const std::string& getName();
+
+	static Player* me();
+	static const std::string myName();
+
+};
+
+}

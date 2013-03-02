@@ -1,0 +1,35 @@
+#!/bin/sh
+libdir=$1 ; shift
+reldir=$1 ; shift
+bin=$1 ; shift
+if [ -z "$bin" ]; then
+	echo "usage: fix_install_names <existing libraries dir> <final location relative binary> <binaries...>"
+	exit 1
+fi
+
+while [ ! -z "$bin" ]; do
+	#echo "$bin ..."
+	
+	if [ ! -e $bin ]; then
+		echo "$bin: not found"
+		exit 1
+	fi
+	
+	for lib in `otool -L $bin | awk '{ print $1; }'`; do
+		blib=`basename $lib`
+		if [ "$blib" == "`basename $bin`:" ]; then
+			continue
+		elif [ "$blib" == "`basename $bin`" ]; then
+			install_name_tool -id $blib $bin
+			continue
+		elif [ -e $libdir/$blib ]; then
+			install_name_tool -change $lib @executable_path/$reldir/$blib $bin
+		elif [ ! -e $lib ]; then
+			echo "Not found: $lib referenced by $bin"
+		fi
+	done
+	
+	bin=$1 ; shift
+done
+
+exit 0

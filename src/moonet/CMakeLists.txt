@@ -1,0 +1,25 @@
+# TODO: option for NoNet/RakNet
+
+add_definitions(-DMOONET_LIBRARY)
+
+if (USE_RAKNET)
+	find_library(LIB_RAKNET RakNet REQUIRED)
+	file(GLOB headers *.h RakNet/*.h)
+	file(GLOB sources *.cpp RakNet/*.cpp)
+	add_library(moonet SHARED ${headers} ${sources})
+	target_link_libraries(moonet mlog ${LIB_RAKNET})
+	if (WIN32)
+		target_link_libraries(moonet wsock32 ws2_32)
+	endif()
+	message("Using RakNet for networking")
+else()
+	file(GLOB headers *.h NoNet/*.h)
+	file(GLOB sources *.cpp NoNet/*.cpp)
+	add_library(moonet SHARED ${headers} ${sources})
+	target_link_libraries(moonet mlog)
+	message("Not using RakNet (no networking will be available)")
+endif()
+
+moon_target_properties(moonet)
+moon_target_install(moonet)
+install(FILES ${headers} DESTINATION include/moonet)

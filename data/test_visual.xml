@@ -1,0 +1,24 @@
+<moon>
+
+	<Scenario name="test_visual">
+
+		<objects>
+			<VisualObject name="visual">
+				<VisualModel name="cow" file="cow.osg"/>
+				<VisualModel name="cessna" file="cessna.osg" tag="air" hidden="true"/>
+				<VisualModel name="ship" file="spaceship.osg" tag="air" pos="0,0,5" hidden="true"/>
+				<VisualModel name="truck" file="dumptruck.osg" hidden="true"/>
+			</VisualObject>
+			<Camera name="camera" pos="0,-20,0">
+				<free value="true"/>
+				<fov value="50"/>
+			</Camera>
+		</objects>
+		
+		<Script when="realize">
+			obj = moon.cast(objects.visual)
+		</Script>
+
+	</Scenario>
+	
+</moon>

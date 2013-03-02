@@ -1,0 +1,105 @@
+$#include <osg/Vec3>
+$#include <osg/Vec4>
+$#include <osg/Quat>
+$#include <osg/MatrixTransform>
+
+namespace osg {
+	class Vec3 {
+		Vec3();
+		Vec3(float x, float y, float z);
+		void set(float x, float y, float z);
+		float& x();
+		float& y();
+		float& z();
+		bool valid();
+		bool isNaN();
+		float operator[] (int i);
+		bool operator== (Vec3 &v) const;
+		bool operator< (Vec3 &v) const;
+		float operator* (Vec3 &v) const;
+		Vec3 operator* (float f) const;
+		Vec3 operator/ (float f) const;
+		Vec3 operator+ (Vec3) const;
+		Vec3 operator- (Vec3) const;
+		float length();
+		float length2();
+		float normalize();
+	};
+
+	class Vec4 {
+		Vec4();
+		Vec4(float x, float y, float z, float w);
+		float& x();
+		float& y();
+		float& z();
+		float& w();
+	};
+
+	class Quat {
+		Quat();
+		Quat(float x, float y, float z, float w);
+		float& x();
+		float& y();
+		float& z();
+		float& w();
+	};
+	
+	class Object {
+		void setName(const std::string& name);
+		const std::string& getName() const;
+		const char* libraryName() const;
+		const char* className() const;
+	};
+	
+	class Node : public Object {
+	};
+	
+	class Group : public Node {
+	};
+	
+	class Transform : public Group {
+	};
+	
+	class MatrixTransform : public Transform {
+	};
+	
+	class BoundingBox {
+		float xMin();
+		float xMax();
+		float yMin();
+		float yMax();
+		float zMin();
+		float zMax();
+		Vec3 center();
+		float radius();
+		
+	};
+	
+}
+
+namespace osgText {
+
+	class TextBase {
+		void setText(const std::string& text);
+	};
+	
+	class Text : TextBase {
+		void setColor(osg::Vec4 color);
+		osg::Vec4 getColor();
+	};
+
+}
+
+$[
+function osg.Vec3:get()
+	return self:x(), self:y(), self:z();
+end
+
+function osg.Vec4:get()
+	return self:x(), self:y(), self:z(), self:w();
+end
+
+function osg.Quat:get()
+	return self:x(), self:y(), self:z(), self:w();
+end
+$]

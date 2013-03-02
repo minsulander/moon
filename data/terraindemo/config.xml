@@ -1,0 +1,40 @@
+<moon>
+	<Controls>
+		<joystick name="P880" axis="0" control="Strafe"/>
+		<joystick name="P880" axis="1" control="Move" invert="true"/>
+		<joystick name="P880" button="2" control="CameraMode" />
+		<joystick name="P880" button="5" control="Reset" />
+		<joystick name="P880" button="7" control="Fire" />
+		<key char=" " control="Fire"/>
+		<key char="f" control="Reset"/>
+		<key char="w" negchar="s" control="Move"/>
+		<key char="d" negchar="a" control="Strafe"/>
+		<key char="t" control="CameraMode"/>
+		<key char="i" negchar="k" control="MoveView"/>
+		<key char="I" negchar="K" control="MoveView" gain="10"/>
+		<key char="l" negchar="j" control="StrafeView"/>
+		<key char="L" negchar="J" control="StrafeView" gain="10"/>
+		<key char="p" negchar="o" control="RiseView"/>
+		<key char="P" negchar="O" control="RiseView" gain="10"/>
+	</Controls>
+	
+	<DynamicsConfiguration>
+			<contacts>
+				<contact material1="wheelrub" material2="default">
+					<mu value="100"/>
+					<soft_erp value="0.8"/>
+					<soft_cfm value="0.01"/>
+					<approx1 value="true"/>
+					<slip1 value="0.001"/>
+					<slip2 value="0.015"/>
+				</contact>
+				<contact material1="metal" material2="default">
+					<mu value="100"/>
+				</contact>
+				<contact material1="ball" material2="default">
+					<bounce value="0.8"/>
+					<mu value="10"/>
+				</contact>
+			</contacts>
+	</DynamicsConfiguration>
+</moon>

@@ -1,0 +1,11 @@
+$#include <moon/components/VisualModel.h>
+
+namespace moon {
+
+	class VisualModel : public Component {
+	public:
+		virtual osg::Node* getNode();
+		bool isInitiallyHidden() const { return initHidden; }
+	};
+	
+}

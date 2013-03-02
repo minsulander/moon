@@ -1,0 +1,21 @@
+$#include <mlog/Log.h>
+
+namespace mlog {
+
+	enum DebugLevel {
+		ERROR = -2,
+		WARN,
+		INFO
+    };
+    
+    enum LogCategory {
+    	GENERAL,
+    	NETWORK,
+    	AUDIO,
+		SCRIPT
+    };
+	
+	int getDebugLevel();
+	void dout(const int level, const std::string& message, LogCategory category=SCRIPT);
+
+}

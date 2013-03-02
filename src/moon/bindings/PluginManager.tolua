@@ -1,0 +1,13 @@
+$#include <moon/PluginManager.h>
+
+namespace moon {
+
+	class PluginManager {
+		Plugin* load(const std::string& name);
+		void loadAll();
+		Plugin* get(const std::string& name);
+		unsigned int getNumPlugins();
+		Plugin* getPlugin(const unsigned int index);
+	};
+
+}

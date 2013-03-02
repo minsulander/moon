@@ -1,0 +1,33 @@
+/**
+\defgroup core Core
+The core functionality of the moon engine, including:
+- Application framework
+- Parsing of configuration files
+- Basic visualization
+- Scenario handling
+- Scripting
+*/
+
+//@{
+
+/** 
+\namespace moon 
+\brief The namespace containing core moon engine functionality.
+*/
+
+//@}
+
+/// \defgroup objects Objects
+/// Objects are derived from moon::BaseObject and instantiable through the moon::ObjectFactory.
+
+/// \defgroup components Components
+/// Components are derived from moon::Component and instantiable through the moon::ObjectFactory.
+
+/// \defgroup script Scripting
+/// \ingroup core
+
+/// \defgroup plugin Plug-in system
+/// \ingroup core
+
+/// \defgroup util Utilities
+/// \ingroup core

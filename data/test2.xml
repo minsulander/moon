@@ -1,0 +1,25 @@
+<moon>
+		<templates>
+			<KinematicObject name="cessna" model="cessna.osg">
+				<att value="0, 0, 20" unit="degrees"/>
+				<vel value="10, 0, 0" rel="true"/>
+				<angvel value="0, 0, 20" unit="degrees/second" rel="true"/>
+				<serialize value="0.5"/>
+				<fullserialize value="2.0"/>
+			</KinematicObject>
+			<KinematicObject name="cow" model="cow.osg"/>
+			<KinematicObject name="rotcow" model="cow.osg">
+				<animation loopmode="swing">
+					<at t="0" pos="0,0,0" att="0,0,0"/>
+					<at t="2" pos="10,-10,0" att="90,0,0"/>
+					<at t="3" pos="0,-15,0" att="120,0,0"/>
+					<at t="4" pos="-10,-10,0" att="180,0,0"/>
+				</animation>
+			</KinematicObject>
+		</templates>
+		
+	<Configuration>
+		<scenario name="TEST" file="test1.xml"/>
+		<scenario name="COW" file="test1.xml"/>
+	</Configuration>
+</moon>

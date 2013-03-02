@@ -1,0 +1,47 @@
+$#include "mdraw/ConsoleWindow.h"
+
+namespace mdraw {
+	
+    class ConsoleWindow : public osg::Geode {
+	public:
+	
+	// Public methods
+	bool setFont(const std::string& file, double aspect, double widthmult);
+	float charHeight();
+	float charWidth();
+	void setBackgroundColor(const osg::Vec4& color);
+	const osg::Vec4& getBackgroundColor() const;
+	void scrollUp(unsigned int lines);
+	void scrollDown(unsigned int lines);
+	void pageUp();
+	void pageDown();
+	void scrollRight(unsigned int cols);
+	void scrollLeft(unsigned int cols);
+	void scrollHome();
+	void scrollEnd();
+	void del();
+	void backSpace();
+	void clearLine();
+	void cutLine();
+	void upHistory();
+	void downHistory();
+	void leftCursor();
+	void rightCursor();
+	void putch(const char ch);
+	void print(const std::string& s);
+	void resize(const int lines);
+	void sizeUp(const int lines);
+	void sizeDown(const int lines);
+
+	// Access methods
+	void setPrompt(const std::string& prompt);
+	void setCursorPosition(const int cpos);
+	unsigned int getNumLines();
+	void setTop(const bool top);
+	bool getTop();
+	float getHeight();
+	std::string getLastLine();
+	
+	};
+
+}

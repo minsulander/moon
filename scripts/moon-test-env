@@ -1,0 +1,51 @@
+#!/bin/sh
+OS=`uname -s | tr A-Z a-z | sed -e 's/darwin/mac/' | sed -e 's/mingw32_nt.*/mingw/'`
+ARCH=`uname -m`
+
+build_prefix=$1
+deps_prefix=$2
+
+if [ ! -z "$build_prefix" -a -e "$build_prefix" ]; then
+	shift
+elif [ -e $PWD/../build-$OS-$ARCH ]; then
+	build_prefix=$PWD/../build-$OS-$ARCH
+elif [ -e $PWD/build-$OS-$ARCH ]; then
+	build_prefix=$PWD/build-$OS-$ARCH
+else
+	fail=1
+fi
+
+if [ ! -z "$deps_prefix" -a -e "$deps_prefix" ]; then
+	shift
+elif [ -e $PWD/../moon-dependencies-$OS-$ARCH ]; then
+	deps_prefix=$PWD/../moon-dependencies-$OS-$ARCH
+elif [ -e $PWD/build-$OS-$ARCH ]; then
+	deps_prefix=$PWD/moon-dependencies-$OS-$ARCH
+else
+	fail=1
+fi
+
+if [ "$OS" = "mingw" ]; then
+	build_prefix=`echo $build_prefix | sed -e 's|^C:|/c|'`
+	deps_prefix=`echo $deps_prefix | sed -e 's|^C:|/c|'`
+fi
+
+if [ "$fail" != "1" ]; then
+	export LD_LIBRARY_PATH="$build_prefix/lib:$build_prefix/lib/Debug:$deps_prefix/lib:$LD_LIBRARY_PATH"
+	export DYLD_LIBRARY_PATH="$build_prefix/lib:$build_prefix/lib/Debug:$deps_prefix/lib:$DYLD_LIBRARY_PATH"
+	export DYLD_FRAMEWORK_PATH="$build_prefix/Frameworks:$deps_prefix/Frameworks:$DYLD_FRAMEWORK_PATH"
+	export PATH="$build_prefix/bin:$build_prefix/bin/Debug:$deps_prefix/bin:$PATH"
+	export OSG_FILE_PATH="$build_prefix/data:$build_prefix/../data:$deps_prefix/data:$deps_prefix/data/OpenSceneGraph-Data-2.8.0:$build_prefix/../../moon-3rdparty-assets:$OSG_FILE_PATH"
+	export OSG_LIBRARY_PATH="$build_prefix/lib/moonPlugins:$build_prefix/lib/moonPlugins/Debug:$deps_prefix/lib/osgPlugins-2.8.0:$OSG_LIBRARY_PATH"
+
+	if [ ! -z "$1" ]; then
+		if which $1 >/dev/null; then
+			exec $*
+		else
+			cmd=$1 ; shift
+			exec ${cmd}d $*
+		fi
+	fi
+else
+	echo FAILED
+fi

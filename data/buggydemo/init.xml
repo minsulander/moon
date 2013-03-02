@@ -1,0 +1,5 @@
+<moon>
+	<include file="config.xml"/>
+	<include file="templates.xml"/>
+	<include file="arena1.xml"/>
+</moon>

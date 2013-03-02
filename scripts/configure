@@ -1,0 +1,61 @@
+#/bin/sh
+
+OS=`uname -s | tr A-Z a-z | sed -e 's/darwin/mac/' | sed -e 's/mingw32_nt.*/mingw/'`
+ARCH=`uname -m`
+DEPDIR=moon-dependencies-$OS-$ARCH
+
+PREFIX=`dirname $PWD`
+
+if [ ! -e $PREFIX/$DEPDIR ]; then
+	if [ -e $PREFIX/../moon-dependencies/$DEPDIR/.depsdone ]; then
+		echo "Found dependencies under " `dirname $PREFIX`/moon-dependencies
+		if [ "$OS" = "mingw" ]; then
+			cp -rf $PREFIX/../moon-dependencies/$DEPDIR $PREFIX/
+		else
+			ln -s $PREFIX/../moon-dependencies/$DEPDIR $PREFIX/$DEPDIR
+		fi
+	elif [ -e $PREFIX/moon-dependencies/$DEPDIR/.depsdone ]; then
+		echo "Found dependencies under " $PREFIX/moon-dependencies
+		if [ "$OS" = "mingw" ]; then
+			cp -rf $PREFIX/moon-dependencies/$DEPDIR $PREFIX/
+		else
+			ln -s $PREFIX/moon-dependencies/$DEPDIR $PREFIX/$DEPDIR
+		fi
+	else
+		echo "Cannot find moon-dependencies. Either:"
+		echo "  1) Download a prebuilt package and unpack it under $PREFIX"
+		echo "  2) Check out the moon-dependencies source tree under $PREFIX"
+		echo "     or" `dirname $PREFIX` "and build it"
+		exit 1
+	fi
+fi
+
+if [ ! -e $PREFIX/docs/dependencies ]; then
+	if [ "$OS" = "mingw" ]; then
+		cp -rf $PREFIX/$DEPDIR/docs/dependencies $PREFIX/docs/
+	else
+		ln -s $PREFIX/$DEPDIR/docs/dependencies $PREFIX/docs/dependencies
+	fi
+fi
+
+if [ ! -e $PREFIX/data/OpenSceneGraph-Data-2.8.0 ]; then
+	if [ "$OS" = "mingw" ]; then
+		cp -rf $PREFIX/$DEPDIR/data/OpenSceneGraph-Data-2.8.0 $PREFIX/data/
+	else
+		ln -s $PREFIX/$DEPDIR/data/OpenSceneGraph-Data-2.8.0 $PREFIX/data/OpenSceneGraph-Data-2.8.0
+	fi
+fi
+
+if [ "$OS" == "linux" -a -e /usr/lib/libopenal.so ]; then
+   CMAKE_EXTRAS="-DLIB_OPENAL=/usr/lib/libopenal.so"
+fi
+
+mkdir -p $PREFIX/build-$OS-$ARCH
+
+PATH=$PREFIX/$DEPDIR/bin:$PATH
+cd $PREFIX/build-$OS-$ARCH
+if uname -s | grep MINGW >/dev/null; then
+	cmake $PREFIX -G "MSYS Makefiles" $CMAKE_EXTRAS $* 
+else
+	cmake $PREFIX $CMAKE_EXTRAS $* 
+fi

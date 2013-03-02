@@ -1,0 +1,72 @@
+<moon>
+	<templates>
+		<Dynamic name="Box" model="models/props/boxes/cardboard_box/cb_box.ac" yup="true">
+			<Body> <box sides="0.4,0.5,0.4"/> <mass value="0.1"/> </Body>
+			<Geometry> <box sides="0.4,0.5,0.4"/> </Geometry>
+		</Dynamic>
+		<Dynamic name="Barrel">
+			<Model file="models/props/barrels/barrel01.flt" pos="0,0,-0.375"/>
+			<Body> <cylinder radius="0.25" length="0.75"/> <mass value="1"/> </Body>
+			<Geometry>
+				<cylinder radius="0.25" length="0.3"/>
+				<box sides="0.3,0.3,0.1" pos="0,0,-0.37"/>
+				<box sides="0.3,0.3,0.1" pos="0,0,0.37"/>
+			</Geometry>
+		</Dynamic>
+		<Dynamic name="Crate" model="models/props/boxes/crates/crate01.flt" geometry="bbox">
+			<Body> <box sides="1,1,1"/> <mass value="3"/> </Body>
+		</Dynamic>
+		<Dynamic name="EquipmentBox" model="models/props/boxes/equipment_box/eq_box1.ac" yup="true" geometry="bbox">
+			<Body> <box sides="3,1.5,1.5"/><mass value="10"/> </Body>
+		</Dynamic>
+		<Dynamic name="Container_Cargo" model="models/props/containers/cargo/cargo.ac" yup="true" geometry="bbox">
+			<Body> <box sides="6,6,3"/> <mass value="100"/> </Body>
+		</Dynamic>
+		<Static name="Container_Buggy" model="container_buggy.ac" yup="true" geometry="mesh"/>
+		
+		<Static name="Road_Elev_Straight" model="roadway_elev_straight.ac" yup="true" geometry="bounds"/>
+		<Static name="Road_Elev_Straight_1s" model="roadway_elev_straight_1s.ac" yup="true" geometry="bounds"/>
+		<Static name="Road_Elev_ArchLight" model="roadway_elev_straight.ac" yup="true" geometry="bounds">
+			<Model file="roadway_arch_light.ac" yup="true"/>
+			<Light name="RoadLight" directional="false" att="0,-90,0" pos="0,0,4">
+				<ambient value="0,0,0,1"/>
+				<diffuse value="1,0.8,0.6,1"/>
+				<specular value="1,1,1,1"/>
+				<spot_exponent value="1"/>
+				<spot_cutoff value="90"/>
+				<linear_attenuation value="0.01"/>
+				<realize range="500" azimuth="90" exempt="10"/>
+				<fade in="100" out="500"/>
+			</Light>
+		</Static>
+		
+		<Static name="Road_Elev_Intersection" model="roadway_elev_ixn.ac" yup="true" geometry="bounds"/>
+		<Static name="Road_Elev_3Way_Intersection" model="roadway_elev_3ixn.ac" yup="true" geometry="bounds"/>
+		<Static name="Road_Elev_Turn90" model="roadway_elev_turn90.ac" yup="true" geometry="bounds"/>
+		<Static name="Road_Elev_End90_Right" model="roadway_elev_end90_right.ac" yup="true" geometry="bounds"/>
+		<Static name="Pad_Elev_RoadConnection" model="pad_elev_roadconn.ac" yup="true" geometry="bounds" extract="true"/>
+		<Static name="Platform_Elev" model="platform_elev.ac" yup="true" geometry="bounds"/>
+		<Static name="Platform_Wall" model="platform_wall.ac" yup="true" geometry="bounds"/>
+		<Static name="Sidewalk_Left" model="sidewalk_left.ac" yup="true" geometry="bounds"/>
+		<Static name="Tunnel_Entrance" model="tunnel_entrance.ac" yup="true" geometry="bounds"/>
+		<Static name="UtilityTower" geometry="bounds">
+			<Model file="utility_tower_base.ac" yup="true"/>
+			<Model file="utility_tower_floor_clean.ac" yup="true" pos="0,0,4"/>
+			<Model file="utility_tower_floor_v1.ac" yup="true" pos="0,0,8"/>
+			<Model file="utility_tower_floor_v1.ac" yup="true" pos="0,0,12"/>
+			<Model file="utility_tower_floor_platforms.ac" yup="true" att="90,0,0" pos="0,0,16"/>
+			<Model file="utility_tower_floor_platforms.ac" yup="true" pos="0,0,20"/>
+			<Model file="utility_tower_roof.ac" yup="true" pos="0,0,24"/>
+		</Static>
+
+			<Light name="TestLight" directional="false">
+				<ambient value="0,0,0,1"/>
+				<diffuse value="1,0.8,0.6,1"/>
+				<specular value="1,1,1,1"/>
+				<spot_exponent value="10"/>
+				<spot_cutoff value="90"/>
+				<linear_attenuation value="0.01"/>
+				<realize range="1000" azimuth="50" exempt="300"/>
+			</Light>
+	</templates>
+</moon>

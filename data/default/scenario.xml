@@ -1,0 +1,66 @@
+<moon>
+    <Scenario name="Default">
+        <moodyn_PhysicalObject name="ground" tag="noselect ">
+            <moon_VisualModel name="Model_2" file="marsian_landscape.osga" scale="20 20 1" />
+            <moodyn_Geometry name="Geometry_2">
+                <mesh />
+            </moodyn_Geometry>
+        </moodyn_PhysicalObject>
+        <SkyDome name="sky" tag="noselect " image="textures/sky/dome/night.jpg" start="-3" interval="10" />
+        <Camera name="FreeCam" pos="1395.58, 1796.09, 125.84" att="29.1075, -11.7368, 7.30906e-15" free="1">
+            <fov value="30" />
+            <aspect value="1.2" />
+        </Camera>
+        <Road_Elev_Straight name="Road_Elev_Straight_2" pos="1559.68, 2012.38, 80.8092" att="60, 0, 0" />
+        <Pad_Elev_RoadConnection name="Pad_Elev_RoadConnection_1" pos="1613.65, 2008.9, 80.8092" att="330, 0, 0" />
+        <Sidewalk_Left name="Sidewalk_Left_1" pos="1487.9, 1976.71, 80.8092" att="240, 0, 0" />
+        <Sidewalk_Left name="Sidewalk_Left_2" pos="1470.58, 1966.71, 80.8092" att="240, 0, 0" />
+        <Sidewalk_Left name="Sidewalk_Left_3" pos="1453.26, 1956.71, 80.8092" att="240, 0, 0" />
+        <Platform_Elev name="Platform_Elev_1" pos="1448.26, 1965.37, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_2" pos="1465.58, 1975.37, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_3" pos="1482.9, 1985.37, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_4" pos="1455.58, 1992.69, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_5" pos="1438.26, 1982.69, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_5 copy" pos="1445.58, 2010.01, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_5 copy copy" pos="1428.26, 2000.01, 80.8092" att="60, 0, 0" />
+        <Platform_Elev name="Platform_Elev_5 copy copy" pos="1472.76, 2002.6, 80.8092" att="60, 0, 0" />
+        <Road_Elev_3Way_Intersection name="Road_Elev_3Way_Intersection_3" pos="1525.04, 1992.38, 80.8092" att="150, 0, -0" />
+        <Tunnel_Entrance name="Tunnel_Entrance_1" pos="1505.04, 2027.02, 80.8092" att="150, 0, -0" />
+        <UtilityTower name="UtilityTower_4" pos="1476.4, 1996.63, 80.8092" att="150, 0, -0" />
+        <Barrel name="Barrel_1" pos="1470.5, 1993.1, 81.2" />
+        <Barrel name="Barrel_2" pos="1470.86, 1992.57, 81.2" att="328.5, 0, 0" />
+        <Barrel name="Barrel_3" pos="1471.23, 1991.98, 81.2" att="328.5, 0, 0" />
+        <Barrel name="Barrel_4" pos="1470.86, 1992.57, 82" att="328.5, 0, 0" />
+        <Barrel name="Barrel_5" pos="1471.23, 1991.98, 82" att="328.5, 0, 0" />
+        <Box name="Box_1" pos="1472.08, 1989.21, 81.0092" att="323.811, -1.37146e-15, -1.26481e-14" />
+        <Box name="Box_2" pos="1471.61, 1989.55, 81.0091" />
+        <EquipmentBox name="EquipmentBox_1" pos="1477.08, 1989.26, 81.287" att="333, 0, 0" />
+        <Container_Cargo name="Container_Cargo_1" pos="1433.76, 1979.53, 82.1558" att="240, 0, 0" />
+        <Container_Buggy name="Container_Buggy_1" pos="1455.33, 1993.88, 80.9745" att="60, 0, 0" />
+        <Box name="Box_3" pos="1476.82, 1993.09, 105.984" />
+        <TestLight name="TestLight_1" pos="1470, 1993, 98" att="234.342, -59.5004, 9.88346" />
+        <TestLight name="TestLight_1 copy" pos="1480.14, 1990.25, 101.639" att="159.342, -59.5004, 9.88346" />
+        <Road_Elev_ArchLight name="Road_Elev_ArchLight_1" pos="1542.36, 2002.38, 80.8092" att="60, 0, 0" />
+        <Road_Elev_ArchLight name="Road_Elev_ArchLight_2" pos="1515.04, 2009.7, 80.8092" att="150, 0, -0" />
+        <Road_Elev_ArchLight name="Road_Elev_ArchLight_3" pos="1577, 2022.38, 80.8092" att="60, 0, 0" />
+        <Road_Elev_Straight_1s name="Road_Elev_Straight_1s_2" pos="1473.08, 1962.38, 80.8092" att="240, 0, 0" />
+        <Road_Elev_Straight_1s name="Road_Elev_Straight_1s_3" pos="1490.4, 1972.38, 80.8092" att="240, 0, 0" />
+        <Road_Elev_Straight name="Road_Elev_Straight_6" pos="1507.72, 1982.38, 80.8092" att="240, 0, 0" />
+        <Platform_Wall name="Platform_Wall_1" pos="1439.6, 1960.37, 80.8092" att="150, 0, -0" />
+        <Platform_Wall name="Platform_Wall_2" pos="1429.6, 1977.69, 80.8092" att="150, 0, -0" />
+        <Platform_Wall name="Platform_Wall_3" pos="1419.6, 1995.01, 80.8092" att="150, 0, -0" />
+        <Platform_Wall name="Platform_Wall_4" pos="1491.56, 1990.37, 80.8092" att="330, 0, 0" />
+        <Platform_Wall name="Platform_Wall_5" pos="1481.56, 2007.69, 80.8092" att="330, 0, 0" />
+        <DemoBuggy name="DemoBuggy_1" pos="1458.1, 1995.5, 82.8" att="240, 0, 0" />
+        <Crate name="Crate_1" pos="1468, 1995, 80.8092" />
+        <Crate name="Crate_1 copy" pos="1446.34, 1964.09, 81.3092" att="326.242, -8.33939e-16, -1.26949e-14" />
+        <Container_Cargo name="Container_Cargo_1 copy" pos="1440.53, 1971.52, 82.1558" att="240, 0, 0" />
+        <Crate name="Crate_1 copy copy" pos="1445.3, 1962.79, 81.3091" />
+        <Crate name="Crate_1 copy copy" pos="1447.07, 1962.3, 81.3092" att="40.0344, 1.19576e-14, -4.34408e-15" />
+        <Barrel name="Barrel_5 copy" pos="1448.91, 1962.77, 81.1754" att="328.5, -3.3303e-16, -1.27179e-14" />
+        <Barrel name="Barrel_5 copy" pos="1449.52, 1962.96, 81.1753" att="328.5, -3.3303e-16, -1.27179e-14" />
+        <Barrel name="Barrel_5 copy" pos="1449.53, 1962.89, 81.8986" att="328.5, -3.3303e-16, -1.27179e-14" />
+        <Road_Elev_Turn90 name="Road_Elev_Turn90_1" pos="1585.66, 2027.38, 80.8092" att="240, 0, 0" />
+        <Road_Elev_End90_Right name="Road_Elev_End90_Right_1" pos="1455.76, 1952.38, 80.8092" att="60, 0, 0" />
+    </Scenario>
+</moon>

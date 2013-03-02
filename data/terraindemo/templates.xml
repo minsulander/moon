@@ -1,0 +1,27 @@
+<moon>
+
+		<templates>
+		
+			<Body name="Ball" model="../buggydemo/soccerball.ac">
+				<remote range="50"/>
+				<mass value="1"/>
+				<mass_sphere radius="1"/>
+				<Geometry material="ball">
+					<sphere radius="1"/>
+				</Geometry>
+				<Source name="hit" file="audio/hit_dull.aif" trigger="play">
+					<Table param="contactforce" target="gain">10:0 200:1.0</Table>
+				</Source>
+			</Body>
+		
+			<Body name="Box">
+				<mass value="1"/>
+				<mass_box sides="1,1,1"/>
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+			</Body>			
+
+		</templates>
+		
+</moon>

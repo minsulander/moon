@@ -1,0 +1,24 @@
+
+$#include <moon/objects/VisualObject.h>
+
+namespace moon {
+	
+	class VisualObject : public BaseObject {
+		unsigned int getNumModels() const;
+		void showModel(const unsigned int index);
+		void setModelVisibility(const unsigned int index, const bool value);
+		void showModel(const std::string& name);
+		void setModelVisibility(const std::string& name, const bool value);
+		void showModelsWithTag(const std::string& tag);
+		void setModelVisibilityWithTag(const std::string& tag, const bool value);
+		void showModelsWithoutTag(const std::string& tag);
+		void setModelVisibilityWithoutTag(const std::string& tag, const bool value);
+		void showAllModels();
+		virtual void hideAllModels();
+		
+		virtual void showLabel();
+		virtual void hideLabel();
+		virtual void setLabel(const std::string& text);
+	};
+	
+}

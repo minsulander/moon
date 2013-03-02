@@ -1,0 +1,34 @@
+$#include "moon/Application.h"
+
+namespace moon {
+
+	/// Base class for moon engine applications
+	class Application {
+	public:
+		void host(const std::string& gameName, const std::string& playerName = "");
+		void join(const std::string& peer, const std::string& playerName);
+		void disconnect();
+		const std::string& getName() const;
+		void setDone(const bool flag);
+		bool isDone() const;
+		void setEndTime(const double time);
+		double getEndTime() const;
+		void setNonRealtimeSimulation(const int num = 1);
+		int getNonRealtimeSimulation() const;
+		void setTargetFrameRate(const float fps);
+		float getTargetFrameRate() const;
+		float getAverageFrameRate() const;
+		int getSleepTime() const;
+		void setMaxSleepTime(const int time);
+		int getMaxSleepTime() const;
+		void setExitCode(const int value);
+		int getExitCode() const;
+		void load(const std::string& filename, const std::string& specname = "", const std::string& spectype = "");
+		Scenario *getScenario();
+		bool loadScenario(const std::string& name);
+		void saveScenario(const std::string& filename);
+		const std::string& getRootPath();
+		NetworkGame *getNetworkGame();
+	};
+	
+}

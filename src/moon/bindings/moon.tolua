@@ -1,0 +1,40 @@
+$pfile "disable_msvc_warnings.tolua"
+
+$pfile "osg.tolua"
+
+$pfile "mlog/Log.tolua"
+
+$pfile "moonet/Client.tolua"
+$pfile "moonet/NetworkManager.tolua"
+$pfile "moonet/Player.tolua"
+
+$pfile "mdraw/ConsoleWindow.tolua"
+$pfile "mdraw/FadeText.tolua"
+$pfile "mdraw/utils.tolua"
+
+$pfile "components/Component.tolua"
+$pfile "components/VisualModel.tolua"
+$pfile "components/Instrument.tolua"
+$pfile "objects/BaseObject.tolua"
+$pfile "objects/VisualObject.tolua"
+$pfile "objects/KinematicObject.tolua"
+$pfile "objects/Camera.tolua"
+
+$pfile "Parameter.tolua"
+$pfile "Scenario.tolua"
+$pfile "Application.tolua"
+$pfile "Viewer.tolua"
+$pfile "EditMode.tolua"
+$pfile "Scheduler.tolua"
+$pfile "SimulationManager.tolua"
+$pfile "NetworkGame.tolua"
+$pfile "Control.tolua"
+$pfile "Plugin.tolua"
+$pfile "PluginManager.tolua"
+
+$lfile "lua/tostring.lua"
+$lfile "lua/events.lua"
+$lfile "lua/keys.lua"
+$lfile "lua/init.lua"
+$lfile "lua/callbacks.lua"
+$lfile "lua/test.lua"

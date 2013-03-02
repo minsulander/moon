@@ -1,0 +1,3 @@
+$pfile "Client.tolua"
+$pfile "NetworkManager.tolua"
+$pfile "Player.tolua"

@@ -1,0 +1,10 @@
+<!--=
+== Smallest possible example ==
+This is a scenario with one object and one camera.
+=-->
+<moon>
+	<Scenario name="smallest possible">
+		<Visual name="ball" model="buggydemo/soccerball.ac"/>
+		<Camera name="camera" pos="0,-20,0"/>
+	</Scenario>
+</moon>

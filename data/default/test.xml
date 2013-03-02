@@ -1,0 +1,21 @@
+<moon>
+	<Scenario name="Default example scenario">
+
+		<Static name="ground" tag="noselect">
+			<Model file="marsian_landscape.osga" scale="20,20,1"/>
+			<Geometry> <mesh/> </Geometry>
+		</Static>
+
+		<SkyDome name="sky" image="textures/sky/dome/night.jpg" start="-3" tag="noselect"/>
+
+		<Camera pos="1800,1000,100" att="0, -10, 0">
+			<animation loopmode="swing">
+				<at t="0" pos="0,0,0" att="0,-10,0"/>
+				<at t="5" pos="0,30,-5"/>
+				<at t="10" pos="20,50,-15"/>
+			</animation>
+		</Camera>
+        <Box name="Box_1" pos="1800, 1231.41, 59.1954" />
+
+	</Scenario>
+</moon>

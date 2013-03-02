@@ -1,0 +1,13 @@
+<!-- DO NOT EDIT THIS PAGE ON THE WIKI - It is generated and will be overwritten! -->
+
+This document describes the XML-based file format used for scenario and configuration files in the
+moon engine.
+
+This documentation is extracted from tagged comments in the source code. Although this makes it
+kind of ugly, it helps to keep the documentation up-to-date.
+
+{|align=right
+|__TOC__
+|}
+
+= Globals =

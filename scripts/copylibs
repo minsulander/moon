@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ldd=ldd
+if [ "`uname`" == "Darwin" ]; then
+	ldd="otool -L"
+fi
+
+sourcedir=$1 ; shift
+destdir=$1 ; shift
+if [ -z "$destdir" ]; then
+	echo "usage: copylibs <source-lib-dir> <dest-lib-dir> <binaries...>"
+	exit 1
+fi
+
+while [ ! -z "$1" ]; do
+	bin=$1
+	for lib in `$ldd $bin | awk '{ print $1; }'`; do
+		blib=`basename $lib`
+		if [ "$blib" == "`basename $bin`:" ]; then
+			continue
+		elif [ "$blib" == "`basename $bin`" ]; then
+			continue
+		elif [ -e $sourcedir/$blib -a ! -e $destdir/$blib ]; then
+			mkdir -p $destdir
+			cp -fp $sourcedir/$blib $destdir/$blib
+			$0 $sourcedir $destdir $destdir/$blib
+		fi
+		
+	done
+	shift
+done

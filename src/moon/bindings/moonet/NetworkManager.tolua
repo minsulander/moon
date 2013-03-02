@@ -1,0 +1,23 @@
+$#include <moonet/NetworkManager.h>
+
+namespace moonet {
+	
+	class NetworkManager {
+	public:
+		bool isActive();
+		bool isServer();
+		bool isClient();
+		bool isConnected();
+
+		void chatSend @ chat(const std::string& message);
+		void doStatistics(int level = 1);
+		bool isDoingStatistics();
+		void printStatistics();
+		void printClientList();
+
+		float getDefaultSerializationInterval();
+		float getDefaultFullSerializationInterval();
+		void setDefaultSerializationInterval(const float seconds, const float fullseconds = 0);		
+	};
+	
+}

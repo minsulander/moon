@@ -1,0 +1,87 @@
+#!/bin/sh
+
+exefile=$1 ; shift
+
+if [ -z "$exefile" ]; then
+	echo 'usage: mkAppBundle <executable> [--name=<appname>] [--icon=<icon>] [--addplist=<addplistfile>] [resources]'
+	exit 1
+fi
+exefilef=`basename $exefile`
+
+for i in $*
+do
+	case $i in
+    	--name=*)
+		appname=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+		;;
+    	--icon=*)
+		icon=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+		;;
+    	--plist=*)
+		plist=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
+		;;
+    	*)
+    	# Resource
+    	mkdir -p /tmp/mkAppBundleResources
+    	cp -rfp `echo $i | sed 's/[-a-zA-Z0-9]*=//'` /tmp/mkAppBundleResources/
+		;;
+  	esac
+done
+
+[ -z "$appname" ] && appname=$exefilef
+
+echo "Creating $appname.app"
+
+mkdir -p $appname.app/Contents/Resources
+mkdir -p $appname.app/Contents/MacOS
+echo APPLnone > $appname.app/Contents/PkgInfo
+cp $exefile $appname.app/Contents/MacOS
+chmod 755 $appname.app/Contents/MacOS/$exefilef
+
+cat << EOF > $appname.app/Contents/Info.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+        <key>CFBundleName</key>
+        <string>$appname</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleVersion</key>
+        <string>59</string>
+        <key>CFBundleShortVersionString</key>
+        <string>1.1</string>
+        <key>CFBundleSignature</key>
+        <string>????</string>
+        <key>CFBundleExecutable</key>
+        <string>$exefilef</string>
+EOF
+
+if [ ! -z "$plist" ]; then
+
+	echo "  plist additions from $plist"
+	cat $plist >> $appname.app/Contents/Info.plist
+	
+fi
+
+if [ ! -z "$icon" ]; then
+	iconf=`basename $icon`
+	cp $icon $appname.app/Contents/Resources/$iconf
+	cat << EOF >> $appname.app/Contents/Info.plist
+        <key>CFBundleIconFile</key>
+        <string>$iconf</string>
+EOF
+	echo "  icon $iconf"
+fi
+
+cat << EOF >> $appname.app/Contents/Info.plist
+</dict>
+</plist>
+EOF
+
+if [ -e /tmp/mkAppBundleResources ]; then
+	echo "  resources"
+	cp -rfp /tmp/mkAppBundleResources/* $appname.app/Contents/Resources/
+	rm -rf /tmp/mkAppBundleResources
+fi
+

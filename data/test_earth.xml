@@ -1,0 +1,26 @@
+<moon>
+	<Scenario name="test_earth" manipulator="terrain">
+
+		<!--<VisualObject name="earth" model="models/earth/earth_bmng_tiny.zip" -->
+		<VisualObject name="earth" model="models/earth/earth_bmng_tiny.zip" 
+			shadow="none" tag="noselect"/>
+			<!--
+		<Camera name="camera" lat="53" lon="17" height="1800000" att="0 -70 0"
+			speed="1e6" infolevel="2"/>
+			-->
+
+		<VisualObject name="blob" lat="59" lon="18" radius="10000" label="name"/>
+		
+		<!-- Summer (23 deg inclination) at noon GMT+1 -->
+		<Light name="sun" directional="false" lat="23" lon="18" height="150e6">
+			<!--<Script file="test_earth_sun_motion.lua"/>-->
+		</Light>
+
+		<Environment>
+			<clear color="0,0,0,0"/>
+			<lighting mode="none" ambient="0.1 0.1 0.3 1"/>
+		</Environment>
+
+		<earthview lat="50" lon="18" height="2000000" atlat="59" atlon="18"/>
+	</Scenario>
+</moon>

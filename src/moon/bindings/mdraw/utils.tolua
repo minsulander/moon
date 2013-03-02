@@ -1,0 +1,6 @@
+$#include <mdraw/utils.h>
+
+namespace mdraw {
+	extern std::string getNodeString(const osg::Node* node, const int indentlevel = 0);
+	extern osg::BoundingBox getBoundingBox(const osg::Node* node);
+}

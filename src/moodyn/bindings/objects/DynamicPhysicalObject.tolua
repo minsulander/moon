@@ -1,0 +1,28 @@
+$#include <moodyn/objects/DynamicPhysicalObject.h>
+
+namespace moodyn {
+	
+	class DynamicPhysicalObject : public PhysicalObject {
+	public:
+		
+		virtual void setVelocity(osg::Vec3& vel, const bool relative = false);
+		inline void setVelocity(const double x, const double y, const double z, const bool relative = false);
+		virtual void setAngularVelocity(osg::Vec3& angvel, const bool relative = false);
+		inline void setAngularVelocity(const double x, const double y, const double z, const bool relative = false);
+		virtual osg::Vec3 getVelocity(const bool relative = false);
+		virtual osg::Vec3 getAngularVelocity(const bool relative = false);
+				
+		moodyn::Body* getBody();
+		
+		void addJoint(moodyn::Joint *joint, DynamicPhysicalObject *connection = NULL);
+		void addJoint(moodyn::Joint::JointType type, moon::BaseObject *connection = NULL);
+		unsigned int getNumJoints();
+		moodyn::Joint* getJoint(const unsigned int index);
+		void removeJoint(moodyn::Joint *joint, const bool otherSide = true);
+		void removeJoints(const unsigned int index, const unsigned int num);
+		void removeJoint(const unsigned int index) { removeJoints(index,1); }
+		
+		void setStatic(const bool value);
+
+	};
+}

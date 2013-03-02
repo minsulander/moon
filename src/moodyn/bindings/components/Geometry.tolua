@@ -1,0 +1,68 @@
+$#include <moodyn/components/Geometry.h>
+
+namespace moodyn {
+
+	class Geometry : public moon::Component {
+	
+		enum ShapeType { NONE, BOX, SPHERE, CAPSULE, CYLINDER, PLANE, MESH, HEIGHTFIELD };
+		struct Shape {
+			Shape() : type(NONE), p1(0), p2(0), p3(0), p4(0), M(osg::Matrix::identity()), mesh_id(0), heightfield_id(0) {}
+			Shape(ShapeType ntype, double np1, double np2 = 0, 
+						double np3 = 0, double np4 = 0, osg::Matrix& nM = osg::Matrix::identity()) 
+			: type(ntype), p1(np1), p2(np2), p3(np3), p4(np4), M(nM), mesh_id(0), heightfield_id(0) {}
+			ShapeType type;
+			double p1, p2, p3, p4;
+			osg::Matrix M;
+			//dTriMeshDataID mesh_id;
+			//osg::ref_ptr<osg::Node> mesh_node;
+			//dHeightfieldDataID heightfield_id;
+			//osg::ref_ptr<osg::HeightField> heightfield;
+		};
+
+		void setBody(moodyn::Body *body, osg::Matrix& offset = osg::Matrix::identity());
+		moodyn::Body* getBody();
+		
+		void addShape(Shape& shape);
+		void addShape(ShapeType type, double p1, double p2 = 0, double p3 = 0, double p4 = 0, osg::Matrix& M = osg::Matrix::identity());
+		void addMesh(osg::Node *node, osg::Matrix& M = osg::Matrix::identity());
+		void addHeightField(osg::HeightField *grid, osg::Matrix& M = osg::Matrix::identity());
+		void addHeightField(osg::Image *img, float vscale, float hscale, osg::Matrix& M = osg::Matrix::identity());
+		void merge(Geometry *other, osg::Matrix& M = osg::Matrix::identity());
+		Shape& getShape(unsigned int index) const;
+		void removeShape(unsigned int index);
+		unsigned int getNumShapes() const;
+		void setTransformation(osg::Matrix& M);
+		dGeomID id(unsigned int shapeno = 0); 
+		osg::Vec3 getPosition(unsigned int shapeno = 0);
+		void transform(osg::Matrix& M);
+
+		bool isEnabled() const;
+		void enable();
+		void disable();
+		
+		virtual void realize();
+		virtual void unrealize();
+		virtual bool isRealized() const;
+		
+		bool checkContact(Geometry *other, unsigned int shapeno = 0, unsigned int othershapeno = 0) const;
+		
+		void setMaterialID(unsigned int id) { materialID = id; }
+		unsigned int getMaterialID() { return materialID; }
+		
+		void setContactConnected(bool value) { contactConnected = value; }
+		bool shouldContactConnected() { return contactConnected; }
+		
+		osg::Node* createDebugNode();
+	
+		void addBoundingSphere(osg::BoundingSphere& bsphere, osg::Matrix& M = osg::Matrix::identity());
+		void addBoundingBox(osg::BoundingBox& bbox, osg::Matrix& M = osg::Matrix::identity());
+		void addShapesFromBounds(osg::Node *node, osg::Matrix& M = osg::Matrix::identity());
+		
+		void setUserData(osg::Referenced *data) { userdata = data; }
+		void* getUserData() { return userdata; }
+		
+		osg::Vec3& getContactForce();
+		osg::Vec3& getContactTorque();
+	};
+
+}

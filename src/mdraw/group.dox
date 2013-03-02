@@ -1,0 +1,14 @@
+/**
+\ingroup core
+\defgroup draw Graphics and drawing
+A bunch of utility classes for drawing useful things in OpenSceneGraph.
+*/
+
+/// @{
+
+/** 
+\namespace mdraw
+\brief Namespace for utility OpenSceneGraph drawing stuff
+*/
+
+/// @}

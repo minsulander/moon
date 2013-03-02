@@ -1,0 +1,6 @@
+#!/bin/sh
+. moon-test-env
+make -C ../src/moon/bindings
+make -C ../src/moodyn/bindings
+make -C ../src/maudio/bindings
+

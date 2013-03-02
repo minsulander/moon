@@ -1,0 +1,15 @@
+$#include <moon/EditMode.h>
+
+namespace moon {
+
+	class EditHandler {
+	public:
+		void setEditMode(const bool value);
+		bool isEditing() { return editmode; }
+		moon::BaseObject *getSelectedObject() { return selected_object.get(); }
+		void select(moon::BaseObject *object, const bool childSelect = false);
+		void setGrid(const float size = 1.f);
+		
+	};
+
+}

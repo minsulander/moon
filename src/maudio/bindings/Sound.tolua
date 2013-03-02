@@ -1,0 +1,54 @@
+$#include <maudio/Sound.h>
+
+namespace maudio {
+
+	class Sound : public moon::Component {
+
+		virtual void play()=0;
+		virtual void pause()=0;
+		virtual void rewind()=0;
+		virtual void stop()=0;
+		
+		virtual bool isPlaying() const = 0;
+		virtual bool isPaused() const = 0;
+		
+		virtual float getGain() const = 0;
+		virtual void setGain(const float value)=0;
+		virtual float getPitch() const = 0;
+		virtual void setPitch(const float value)=0;
+		virtual bool isLooping() const = 0;
+		virtual void setLooping(const bool value)=0;
+		virtual void setPosition(const osg::Vec3& pos) = 0;
+		virtual void setDirection(const osg::Vec3& forward) = 0;
+		virtual void setRotation(const osg::Quat& rot) = 0;
+		virtual osg::Quat getRotation() const = 0;
+		virtual osg::Vec3 getDirection() const = 0;
+		virtual osg::Vec3 getPosition() const = 0;
+		virtual void setVelocity(const osg::Vec3& vel) = 0;
+		virtual osg::Vec3 getVelocity() const = 0;
+		virtual float getLength() const = 0;
+		
+		virtual bool shouldAutoPlay() const;
+		virtual void setAutoPlay(const bool value);
+		
+		enum AudioModifierTarget {
+			TARGET_NONE,
+			TARGET_GAIN,
+			TARGET_PITCH
+		};
+				
+		enum TriggerMode {
+			NO_TRIGGER,
+			PLAY,
+			PAUSE,
+			STOP,
+			PLAY_STOP,
+			PLAY_PAUSE
+		};
+		void setTriggerMode(TriggerMode mode) { triggermode = mode; }
+		TriggerMode getTriggerMode() const { return triggermode; }
+		void setTriggerThreshold(const float value) { triggerThreshold = value; }
+		float getTriggerThreshold() const { return triggerThreshold; }
+	};
+
+}

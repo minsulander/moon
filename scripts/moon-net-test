@@ -1,0 +1,61 @@
+#!/bin/bash
+
+mode=$1
+shift
+
+if [ "$mode" = "d2w" ]; then
+	moonshell -nodisplay -host netgame $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -window 0 0 800 500 -join localhost -player client1 $* &
+	pid2=$!
+	moonshell -window 200 200 800 500 -join localhost -player client2 $* &
+	pid3=$!	
+elif [ "$mode" = "d2" ]; then
+	moonshell -nodisplay -host netgame $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -nodisplay -join localhost -player client1 $* &
+	pid2=$!
+	moonshell -nodisplay -join localhost -player client2 $* &
+	pid3=$!	
+elif [ "$mode" = "d2e" ]; then
+	moonshell -nodisplay -host netgame -end 6 $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -nodisplay -join localhost -player client1 -end 5 $* &
+	pid2=$!
+	moonshell -nodisplay -join localhost -player client2 -end 5 $* &
+	pid3=$!	
+elif [ "$mode" = "h2w" ]; then
+	moonshell -window 0 0 800 500 -host netgame -player server $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -window 200 200 800 500 -join localhost -player client1 $* &
+	pid2=$!
+	moonshell -window 400 400 800 500 -join localhost -player client2 $* &
+	pid3=$!	
+elif [ "$mode" = "h2" ]; then
+	moonshell -nodisplay -host netgame -player server $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -nodisplay -join localhost -player client1 $* &
+	pid2=$!
+	moonshell -nodisplay -join localhost -player client2 $* &
+	pid3=$!	
+elif [ "$mode" = "h2e" ]; then
+	moonshell -nodisplay -host netgame -player server -end 6 $* &
+	pid1=$!
+	sleep 0.1
+	moonshell -nodisplay -join localhost -player client1 -end 5 $* &
+	pid2=$!
+	moonshell -nodisplay -join localhost -player client2 -end 5 $* &
+	pid3=$!	
+else
+	echo "usage: moon-net-test <d2|d2w|d2e|h2|h2w|h2e> [args]"
+	exit 1
+fi
+
+wait $pid3 || exit $?
+wait $pid2 || exit $?
+wait $pid1 || exit $?

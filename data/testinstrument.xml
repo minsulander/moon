@@ -1,0 +1,52 @@
+<moon>
+	<Controls>
+		<mouse axis="x" control="YawView" grab="true"/>
+		<mouse axis="y" control="PitchView" grab="true"/>
+		<key char="w" negchar="s" control="MoveView" incrate="5" decrate="10" gain="10"/>
+		<key char="W" negchar="S" control="MoveView" incrate="5" decrate="10" gain="100"/>
+		<key char="d" negchar="a" control="StrafeView" incrate="5" decrate="10" gain="10"/>
+		<key char="D" negchar="A" control="StrafeView" incrate="5" decrate="10" gain="100"/>
+		<key char="q" negchar="z" control="RiseView" incrate="5" decrate="10" gain="10"/>
+		<key char="Q" negchar="Z" control="RiseView" incrate="5" decrate="10" gain="100"/>
+	</Controls>
+	
+	<Scenario name="testinstrument">
+		<Visual name="ball">
+			<Model file="buggydemo/soccerball.ac" scale="3,3,3"/>
+		</Visual>
+		<Camera name="camera" free="true" pos="0,-20,0" infolevel="3" hudcoord="deg">
+			<Model file="hudtest.ac" tag="hud normalized"/>
+			<BarGraph tag="hud normalized" pos="30,-15,0" vertical="true" 
+					length="0.3" width="0.05" spacing="0.005" color="0.5,1,0.5,0.5"
+					markwidth="0.08" markthick="0.005">
+				<Table param="speed" target="bar">0:0 100:1</Table>
+				<Table param="speed" target="mark">0:0 10:1</Table>
+				<label name="i" pos="0,-0.17,0" size="0.04" align="center_top">speed</label>
+			</BarGraph>
+			<Instrument tag="hud normalized" pos="-30 -20 0" name="TestText">
+				<text>speed: %03.f m/s</text>
+				<text pos="0,-0.1,0" size="0.15" font="fonts/dirtydoz.ttf" color="1,0.5,0.5,0.5"
+					backdrop="shadow_bottom_center" backdropoffset="0.1" backdropcolor="0,0,0,0.5"
+					resolution="500">
+					stuff
+				</text>
+
+				<Modifier param="speed"/>
+			</Instrument>
+			<Instrument tag="hud" name="TestTransform" pos="-40 -10 0" scale="5 5 1">
+				<transform name="compass" model="compassrose.ac"/>
+				<text name="text" size="0.5" align="center_center">%03.f</text>
+				<Modifier param="att_heading" target="compass heading" ratio="-1"/>
+				<Table param="speed" target="compass scalex">0=1 10=0.7 100=0.5</Table>
+				<Modifier param="att_heading" target="text" ratio="57.2"/>
+			</Instrument>
+			<BarGraph name="twobar" tag="hud normalized" pos="-20 0 0">
+				<bar name="first" length="0.2" width="0.05" pos="0 0.05 0"/>
+				<bar name="second" length="0.2" width="0.05" pos="0 -0.05 0"/>
+				<Table param="speed" target="second mark">0:0 100:1</Table>
+				<Table param="speed" target="first.bar">0:0 20:1</Table>
+			</BarGraph>
+		</Camera>
+		
+	</Scenario>
+</moon>

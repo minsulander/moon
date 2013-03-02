@@ -1,0 +1,12 @@
+$#include <moon/Parameter.h>
+
+namespace moon {
+	
+	class Parameter : public osg::Object {
+	public:
+		void set(const float value);
+		float get() { return value; }
+		bool isConnected() const;
+	};
+
+}

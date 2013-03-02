@@ -1,0 +1,53 @@
+<moon>
+	<Scenario name="TEST">
+		<objects>
+			<cessna pos="-10,0,0"/>
+			<cessna pos="0,-10,-10">
+				<vel value="0,0,0" rel="false"/>
+				<angvel value="0,0,5" rel="false"/>
+				<serialize value="0.01"/>
+			</cessna>
+			<cessna pos="-10,0,10"><vel value="1,0,0"/><angvel value="0,0,2" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,20"><vel value="2,0,0"/><angvel value="0,0,4" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,30"><vel value="3,0,0"/><angvel value="0,0,6" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,40"><vel value="4,0,0"/><angvel value="0,0,8" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,50"><vel value="5,0,0"/><angvel value="0,0,10" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,60"><vel value="6,0,0"/><angvel value="0,0,12" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,70"><vel value="7,0,0"/><angvel value="0,0,14" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,80"><vel value="8,0,0"/><angvel value="0,0,16" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,90"><vel value="9,0,0"/><angvel value="0,0,18" unit="degrees/second"/></cessna>
+			<cessna pos="-10,0,100"><vel value="10,0,0"/><angvel value="0,0,20" unit="degrees/second"/></cessna>
+		</objects>
+		<objects netmode="common">
+			<Camera pos="0,-50,5" att="-6, 0, 0">
+				<free value="true"/>
+				<fov value="50"/>
+			</Camera>
+		</objects>
+	</Scenario>
+	<Scenario name="COW">
+		<objects>
+			<cow pos="0,0,0">
+				<animation loopmode="swing">
+					<at t="0" pos="-10,5,-5" att="0,0,-50"/>
+					<at t="5" pos="10,-5,10" att="0,0,90"/>
+				</animation>
+			</cow>
+			<cow att="0,0,90">
+				<animation loopmode="swing">
+					<at t="0" pos="0,0,0" att="0,0,0"/>
+					<at t="2" pos="10,-10,0" att="90,0,0"/>
+					<at t="3" pos="0,-15,0" att="120,0,0"/>
+					<at t="4" pos="-10,-10,0" att="180,0,0"/>
+				</animation>
+			</cow>
+			<rotcow pos="0,0,10" att="0,0,90"/>
+		</objects>
+		<objects netmode="common">
+			<Camera pos="0,-50,5" att="-6, 0, 0">
+				<free value="true"/>
+				<fov value="50"/>
+			</Camera>
+		</objects>
+	</Scenario>
+</moon>

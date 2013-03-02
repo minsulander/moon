@@ -1,0 +1,22 @@
+<moon>
+	<templates>
+		<Static name="road_w20_l20" model="road_w20_l20.ac" yup="true" geometry="bbox"/>
+		<Static name="road_w20_l20_kerb" model="road_w20_l20_kerb.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_l80" model="road_w20_l80.ac" yup="true" geometry="bbox"/>
+		<Static name="road_w20_l80_kerb" model="road_w20_l80_kerb.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_l200" model="road_w20_l200.ac" yup="true" geometry="bbox"/>
+		<Static name="road_w20_l200_kerb" model="road_w20_l200_kerb.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn40" model="road_w20_turn40.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn40_kerb" model="road_w20_turn40_kerb.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn80" model="road_w20_turn80.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn120" model="road_w20_turn120.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn160" model="road_w20_turn160.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_turn160_kerb" model="road_w20_turn160_kerb.ac" yup="true" geometry="mesh"/>
+
+		<Static name="road_w20_exit_r" model="road_w20_exit_r.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_incline5" model="road_w20_incline5.ac" yup="true" geometry="mesh"/>
+		<Static name="road_w20_incline5_kerb" model="road_w20_incline5_kerb.ac" yup="true" geometry="mesh"/>
+
+		<Static name="halfloop" model="loopwrk.ac" yup="true" geometry="mesh"/>
+	</templates>
+</moon>

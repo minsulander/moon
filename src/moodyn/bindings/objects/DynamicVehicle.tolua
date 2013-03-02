@@ -1,0 +1,17 @@
+$#include <moodyn/objects/DynamicVehicle.h>
+
+namespace moodyn {
+
+	class DynamicVehicle : public DynamicPhysicalObject {
+	public:
+		virtual void enter();
+		virtual void exit();
+
+		static moon::Vehicle *current();
+		
+		void cycleCameraMode();
+		
+		moon::Control* getControl(const std::string& name);
+	};
+
+}

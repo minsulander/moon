@@ -1,0 +1,68 @@
+<moon>
+	<Configuration>
+		<dynamics>
+			<contacts>
+				<default>
+					<mu value="infinity"/>
+					<bounce value="0.8"/>
+				</default>
+			</contacts>
+		</dynamics>
+	</Configuration>
+	
+	<templates>
+			<Vehicle name="Bouncer">
+				<mass value="10"/>
+				<Geometry>
+					<box sides="2,2,1"/>
+				</Geometry>
+				<Camera name="drivercam" tag="driver" pos="0,1,1"/>
+				<templates>
+					<Body name="Ball">
+						<mass value="1"/>
+						<Geometry>
+							<sphere radius="0.5"/>
+						</Geometry>
+					</Body>
+					<Joint name="JointHinge" type="hinge">
+						<axis value="0,1,0"/>
+						<spring value="100"/>
+						<damp value="2"/>
+					</Joint>
+				</templates>
+				<Ball name="ball1" pos="2,2,-1.1"/>
+				<Ball name="ball2" pos="-2,2,-1.1"/>
+				<Ball name="ball3" pos="2,-2,-0.9"/>
+				<Ball name="ball4" pos="-2,-2,-1"/>
+				<JointHinge anchor="1,1,-0.5" connect="ball1"/>
+				<JointHinge anchor="-1,1,-0.5" connect="ball2"/>
+				<JointHinge anchor="1,-1,-0.5" connect="ball3"/>
+				<JointHinge anchor="-1,-1,-0.5" connect="ball4"/>
+			</Vehicle>
+			<Body name="Box">
+				<box sides="1,1,1"/>
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+			</Body>
+
+	</templates>
+	
+	<Scenario name="TestDynamics">
+		
+		<objects netmode="common">
+			<Static name="ground" pos="0,0,0" tag="noselect">
+				<Geometry>
+					<plane normal="0,0,1"/>
+				</Geometry>
+			</Static>
+			<Camera pos="0,-50,15" att="0, -15, 0">
+				<free value="true"/>
+			</Camera>			
+		</objects>
+		
+		<objects netmode="server">
+			<Bouncer pos="0,0,10" att="30,3,-3"/>
+		</objects>
+	</Scenario>
+</moon>

@@ -1,0 +1,103 @@
+<moon>
+
+	<templates>
+		<Light name="TestLight" directional="false" att="0,-60,0">
+			<ambient value="0,0,0,1"/>
+			<diffuse value="1,1,1,1"/>
+			<specular value="1,1,1,1"/>
+			<spot_exponent value="50"/>
+			<spot_cutoff value="30"/>
+		</Light>
+		<Light name="ManyLight" directional="false" att="0,-90,0">
+			<ambient value="0,0,0,1"/>
+			<diffuse value="1,1,1,1"/>
+			<specular value="1,1,1,1"/>
+			<spot_exponent value="10"/>
+			<spot_cutoff value="70"/>
+			<realize range="300" azimuth="30" elevation="20"/>
+		</Light>
+		
+		<Kinematic name="Cow" model="cow.osg"/>
+		<Kinematic name="CowLight" model="cow.osg">
+			<Light name="LocalLight" directional="false" att="0,-90,0" pos="0,0,10" local="true">
+				<ambient value="0,0,0,1"/>
+				<diffuse value="1,1,1,1"/>
+				<specular value="1,1,1,1"/>
+				<spot_exponent value="50"/>
+				<spot_cutoff value="30"/>
+				<realize range="120"/>
+			</Light>
+		</Kinematic>
+
+	</templates>
+
+	<Environment>
+		<clear color="0.01,0.05,0.1,1"/>
+		<!--<lighting mode="headlight" ambient="0.1, 0.1, 0.1, 1" diffuse="0.2,0.2,0.22,1"/>-->
+		<lighting mode="none" ambient="0.05,0.05,0.05,1" diffuse="0.1,0.1,0.12,1"/>
+		<fog color="0.01,0.05,0.1,1" start="100" end="1000"/>
+	</Environment>
+
+	<Scenario name="TestLight">
+		<Static name="ground" pos="0,0,-3" tag="noselect">
+			<Geometry>
+				<plane normal="0,0,1"/>
+			</Geometry>
+		</Static>
+		<Cow pos="0,20,0">			
+			<animation loopmode="swing">
+				<at t="0" pos="-30,0,0"/>
+				<at t="5" pos="30,0,0"/>
+			</animation>
+		</Cow>
+		<CowLight pos="0,0,0">
+			<animation loopmode="swing">
+				<at t="0" pos="-10,0,0"/>
+				<at t="1" pos="10,0,0"/>
+			</animation>
+		</CowLight>
+		<Cow pos="0,-5,0"/>
+		<Cow pos="0,-10,0">
+			<animation loopmode="swing">
+				<at t="0" pos="0,0,0"/>
+				<at t="1" pos="5,0,0"/>
+			</animation>
+		</Cow>
+		
+		<TestLight name="red" pos="-10,0,30" att="0,-60,0">
+			<diffuse value="1,0,0,1"/>
+			<realize range="120"/>
+		</TestLight>
+		<TestLight name="green" pos="0,0,30" att="0,-60,0">
+			<diffuse value="0,1,0,1"/>
+			<realize range="100"/>
+		</TestLight>
+		<TestLight name="blue" pos="10,0,30" att="0,-60,0">
+			<diffuse value="0,0,1,1"/>
+			<realize range="80"/>
+		</TestLight>
+		
+		<ManyLight pos="0,100,20"/>
+		<ManyLight pos="0,150,20"/>
+		<ManyLight pos="0,200,20"/>
+		<ManyLight pos="0,250,20"/>
+		<ManyLight pos="0,300,20"/>
+		<ManyLight pos="0,350,20"/>
+		<ManyLight pos="0,400,20"/>
+		<ManyLight pos="0,450,20"/>
+		<ManyLight pos="0,500,20"/>
+		<ManyLight pos="0,550,20"/>
+		<ManyLight pos="0,600,20"/>
+		<ManyLight pos="0,650,20"/>
+		<ManyLight pos="0,700,20"/>
+		<ManyLight pos="0,750,20"/>
+		<ManyLight pos="0,800,20"/>
+		<ManyLight pos="0,850,20"/>
+		<ManyLight pos="0,900,20"/>
+		<ManyLight pos="0,950,20"/>
+		<ManyLight pos="0,1000,20"/>
+		
+		<Camera pos="0,-70,30" att="0,-13,0" free="true"/>
+	</Scenario>
+	
+</moon>

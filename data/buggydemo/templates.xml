@@ -1,0 +1,143 @@
+<moon>
+
+		<templates>
+        
+            <Static name="StaticBuggy" model="hm_bil01.ac" yup="true" geometry="bounds"/>
+            <Visual name="Test" model="test.ac"/>
+            <Visual name="Cow" model="cow.osg"/>
+		
+			<Dynamic name="Ball">
+				<Model file="soccerball.ac"/>
+				<remote range="50"/>
+				<Body>
+					<mass value="1"/>
+					<sphere radius="1"/>
+				</Body>
+				<Geometry material="ball">
+					<sphere radius="1"/>
+				</Geometry>
+				<Source name="hit" file="audio/hit_dull.aif" trigger="play">
+					<Table param="contact" target="gain">0.1:0 5:1.0</Table>
+				</Source>
+			</Dynamic>
+		
+			<Dynamic name="Box">
+				<Body>
+					<mass value="1"/>
+					<box sides="1,1,1"/>
+				</Body>
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+			</Dynamic>			
+			
+			<Buggy name="DemoBuggy">
+				<Model file="buggy_body.ac" yup="true"/>
+				<!-- Buggy parameters -->
+				<turnmax value="20" unit="degrees"/>
+				<rollmax value="50" unit="radian/second"/>
+				<!--<remote children="true" mode="dynamic" inc="0.1" full="1" range="50"/>-->
+				<remote children="true" mode="dynamic" inc="0.1" full="1" recursive="true"/>
+				<!-- Physics -->
+				<Body>
+					<mass value="50"/>
+					<capsule radius="1" length="4.5" direction="2"/>
+				</Body>
+				<Geometry cc="false" material="metal">
+					<cylinder radius="0.8" length="3.5" pos="0,-0.5,0.4" att="0,90,0"/>
+					<sphere radius="0.8" pos="0,1.5,0.4"/>
+				</Geometry>
+
+				<!-- Sounds -->
+				<Source name="whine" file="audio/Avionics_AC_400Hz.wav" loop="true" trigger="play/stop">
+					<Table param="drive" target="gain">-1.0:0.3 -0.1:0 0.1:0 1.0:0.3</Table>
+					<Table param="driverotspeed" target="pitch">-20.0:1.5 0:1.3 20:1.5</Table>
+				</Source>
+				<Source name="drive" file="audio/hydraulic.aif" loop="true" trigger="play/pause" gain="1.5" refdistance="10">
+					<Table param="drivetorque" target="gain">-300:1.0 0:0.1 300:0.5</Table>
+					<Table param="driverotspeed" target="gain">-20:1 -0.5:1 0:0 0.5:1 20:1</Table>
+					<Table param="driverotspeed" target="pitch">-70:1 0:0.3 70:1</Table>
+				</Source>
+				<Source name="relay" file="audio/switch1.aif" trigger="play" gain="0.5">
+					<Range param="drive" lo="0.1" abs="true"/> 
+				</Source>
+				<Source name="hit" file="audio/hit_metal1.aif" trigger="play" refdistance="20">
+					<Table param="contact" target="gain">3:0 3.5:0.1 8:0.3 10:0.5 50:1.0</Table>
+				</Source>
+				<Source name="hithard" file="audio/hit_metal2.aif" trigger="play" refdistance="20">
+					<Table param="contact" target="gain">8:0 10:0.1 50:1.0</Table>
+				</Source>
+				<!-- Cameras -->
+				<Camera name="drivercam" tag="driver" pos="0,1,0.8" free="false">
+					<yaw unit="degree" min="-90" max="90"/>
+					<pitch unit="degree" min="-20" max="40"/>
+					<roll unit="degree" min="-10" max="10"/>
+					<forward min="-1.5" max="0.5"/>
+					<right min="-0.3" max="0.3"/>
+					<up min="0" max="0.5"/>
+					<fov value="70"/>
+					<clip near="0.1" far="20000"/>
+					<infolevel value="3"/>
+				</Camera>
+				<!--
+				<Camera name="trackercam" tag="track" pos="0,-10,5">
+					<free value="true"/>
+					<infolevel value="3"/>
+				</Camera>
+				-->
+
+				<!-- Wheels and their joints -->
+				<templates>					
+					<Dynamic name="BuggyWheel" model="buggy_wheel_axle.ac" yup="true">
+						<remote angvel="false"/>
+						<Geometry material="wheelrub">
+							<sphere radius="0.75"/>
+						</Geometry>
+						<Body>
+							<mass value="1"/>
+							<cylinder radius="0.75" length="0.5" direction="1"/>
+						</Body>
+						<Source name="RollingSound" file="audio/PlaneMove.ogg" loop="true" refdistance="5" trigger="play/stop" gain="0.5">
+							<Table param="contact" target="gain">1:0 2:0.5 10:1</Table>
+							<Table param="rotspeed" target="pitch">0:0 1:0.5 30:3</Table>
+						</Source>
+					</Dynamic>		
+					<Joint name="BuggyJoint" type="hinge2">
+						<axis value="0,0,1"/>
+						<axis2 value="1,0,0"/>
+						<spring value="5000"/>
+						<damp value="1000"/>
+						<maxforce value="500"/>
+						<maxforce2 value="60"/>
+						<stop lo="-45" hi="45" unit="degrees"/>
+					</Joint>
+				</templates>				
+				<BuggyWheel name="wheel_lf" tag="wheel steer drive" pos="-1.5,  1.5, -0.45" att="180,0,0"/>
+				<BuggyWheel name="wheel_rf" tag="wheel steer drive" pos=" 1.5,  1.5, -0.45"/>
+				<BuggyWheel name="wheel_lr" tag="wheel rsteer drive" pos="-1.5, -1.5, -0.5" att="180,0,0"/>
+				<BuggyWheel name="wheel_rr" tag="wheel rsteer drive" pos=" 1.5, -1.5, -0.5"/>
+				<BuggyJoint name="suspension_lf" connect="wheel_lf" anchor="-1,  1.5, -0.45"/>
+				<BuggyJoint name="suspension_rf" connect="wheel_rf" anchor=" 1,  1.5, -0.45"/>
+				<BuggyJoint name="suspension_lr" connect="wheel_lr" anchor="-1, -1.5, -0.5">
+					<spring value="3000"/>
+				</BuggyJoint>
+				<BuggyJoint name="suspension_rr" connect="wheel_rr" anchor=" 1, -1.5, -0.5">
+					<spring value="3000"/>
+				</BuggyJoint>
+				
+				<!-- The cannon ball used for some testing -->
+				<Dynamic name="cannonball" tag="ammo" pos="0,-5,2">
+					<Geometry> <sphere radius="0.2"/> </Geometry>
+					<Body> <mass value="1"/><sphere radius="0.2"/> </Body>
+				</Dynamic>
+			</Buggy>
+			
+			<Static name="GroundPlane" tag="noselect">
+				<Geometry>
+					<plane normal="0,0,1"/>
+				</Geometry>
+			</Static>
+
+		</templates>
+		
+</moon>

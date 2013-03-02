@@ -1,0 +1,40 @@
+$#include <moon/objects/KinematicObject.h>
+
+namespace moon {
+	
+	/// A scenario object that has a linear and/or angular velocity, or an animation path
+	class KinematicObject : public VisualObject {
+	public:
+		void setAnimationPaused(const bool paused, const int controlPointIndex = -1);
+		bool getAnimationPaused() const;
+		void setTransformationUpdatesControlPoint(const int controlPointIndex);
+		virtual void setVelocity(const osg::Vec3& vel, const bool relative = false);
+		inline void setVelocity(const double x, const double y, const double z, const bool relative = false);
+		virtual void setAngularVelocity(const osg::Vec3& vel, const bool relative = false);
+		inline void setAngularVelocity(const double x, const double y, const double z, const bool relative = false);
+		virtual osg::Vec3 getVelocity(const bool relative = false);
+		virtual void getVelocity(double& x, double& y, double& z, const bool relative = false);
+		virtual osg::Vec3 getWorldVelocity() const;
+		void getWorldVelocity(double& x, double& y, double& z) const;
+		virtual osg::Vec3 getAngularVelocity(const bool relative = false);
+		virtual void getAngularVelocity(double& x, double& y, double& z, const bool relative = false);
+		virtual osg::Vec3 getWorldAngularVelocity() const;
+		void getWorldAngularVelocity(double& x, double& y, double& z) const;
+
+		virtual void requestPosition(const osg::Vec3& pos);
+		virtual void requestRotation(const osg::Quat& rot);
+		virtual void requestAttitude(const osg::Vec3& att);
+		virtual void requestVelocity(const osg::Vec3& vel, const bool relative = false);
+		virtual void requestAngularVelocity(const osg::Vec3& vel, const bool relative = false);
+
+		virtual void stop();
+		virtual float getHeight();
+		
+		virtual void reset();
+		
+		static double linear_threshold;
+		static double angular_threshold;
+		static double anim_velocity_timestep;
+	};
+	
+}

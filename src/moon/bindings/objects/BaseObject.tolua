@@ -1,0 +1,180 @@
+// Note: This Tolua package file also includes selected methods etc from
+// TransformObject and VisualObject
+
+$#include <moon/objects/BaseObject.h>
+
+namespace moon {
+	
+	/// Base class for static visible objects in the scenario, supporting hierarchies of objects
+	// Don't inherit! User supplied callbacks won't work then... strange tolua behavior
+	class BaseObject : public ComponentContainer
+	{
+	public:
+		moon::BaseObject* getRoot();
+		moon::BaseObject* getTemplate();
+
+		unsigned int getNumChildren() const;
+		void addChild(BaseObject *child);
+		void removeChild(BaseObject *child);
+		void removeChildren(const unsigned int index, const unsigned int num);
+		inline void removeChild(const unsigned int index);
+		virtual void separateChild(BaseObject *child);
+		inline void separateChild(const unsigned int index);
+		BaseObject* getChild(const unsigned int index);
+		unsigned int getChildIndex(const BaseObject *child) const;
+		BaseObject* getParent() const;
+		BaseObject* findRelated(const std::string& name, const bool childrenOnly = false);
+		BaseObject* findRelatedByTemplate(const BaseObject* templateObject, const bool childrenOnly = false);
+		BaseObject* findRelatedByTag(const std::string& tag, const bool childrenOnly = false);
+
+		virtual void show();
+		virtual void hide();
+		virtual void addNode(osg::Node *node);
+		virtual void addDebugNode(osg::Node *node);
+		osg::Node* getNode();
+		enum HighLightMode { BBOX, THICK_BBOX, TRANSPARENT_BBOX, SCRIBE, THICK_SCRIBE };
+		virtual void highlight(const bool on, HighLightMode mode = THICK_SCRIBE, const osg::Vec4& color = osg::Vec4(1,1,1,1));
+		enum DisplayMode { DISPLAY_NORMAL, DISPLAY_DEBUG };
+		virtual void setDisplayMode(const unsigned int mode);
+		unsigned int getDisplayMode() const;
+
+		void setName(const std::string& name);
+		std::string getName() const;
+        long id() const;
+        
+		void pointAt(const osg::Vec3& pos);
+		void pointAt(const double x, const double y, const double z);
+		void pointAt(BaseObject *other);
+		float getRange(const BaseObject *object);
+		float getAzimuth(const BaseObject *object, const bool rel = true);
+		float getElevation(const BaseObject *object, const bool rel = true);
+		void getSpherical(float& range, float& azimuth, float& elevation, const BaseObject *object, const bool rel = true);
+		
+		bool getHeightAboveTerrain(float &height, const bool boundscenter = true, const double below = 10000.0, const double above = 1000.0, const osg::Node::NodeMask& mask = 0xFFFFFFFF);
+		bool clampToTerrain(const bool boundscenter = true, const double below = 10000.0, const double above = 1000.0, const osg::Node::NodeMask& mask = 0xFFFFFFFF);
+		bool alignToTerrain(const bool boundscenter = true, const double below = 10000.0, const double above = 1000.0, const osg::Node::NodeMask& mask = 0xFFFFFFFF);
+		osg::Vec3 getBottomCenter();
+		
+		virtual KinematicObject* asKinematic();
+
+		void setScriptUpdateInterval(const double interval);
+		double getScriptUpdateInterval() const;
+
+		void remove(const double timeFromNow = 0.0);
+		void setRemoveTime(const double time);
+		double getRemoveTime() const;
+		
+		Parameter* findParameter(const std::string& name);
+
+		// TransformObject
+		virtual void setPosition(const osg::Vec3& position);
+		virtual void setPosition(const double x, const double y, const double z);
+		virtual osg::Vec3 getPosition() const;
+		virtual void getPosition(double& x, double& y, double& z) const;
+		
+		virtual void setRotation(const osg::Quat& rotation);
+		virtual osg::Quat getRotation() const;
+		virtual void setAttitude(const osg::Vec3& attitude);
+		virtual osg::Vec3 getAttitude() const;
+		virtual void setAttitude(const double heading, const double pitch, const double roll);
+		virtual void getAttitude(double& heading, double& pitch, double& roll) const;
+		virtual osg::Vec3 forward();
+		virtual osg::Vec3 right();
+		virtual osg::Vec3 up();
+		
+		virtual void move(const double distance);
+		virtual void move(const osg::Vec3& relposition);
+		virtual void move(const double x, const double y, const double z);
+		virtual void rotate(const double angle, const osg::Vec3& axis);
+		virtual void rotateEuler(const osg::Vec3& angles);
+		virtual void rotateEuler(const double heading, const double pitch, const double roll);
+		virtual void yaw(const double angle);
+		virtual void pitch(const double angle);
+		virtual void roll(const double angle);
+		
+		virtual void scale(const osg::Vec3& scale);
+		void scale(const double amount);
+		
+		osg::MatrixTransform* getTransform();
+		void setTransformMatrix(const osg::Matrix& matrix);
+		const osg::Matrix& getTransformMatrix() const;
+		static osg::Vec3 getEulerAnglesFromMatrix(const osg::Matrix& M);
+		static osg::Matrix getMatrixFromEulerAngles(const osg::Vec3& angles);
+        
+        virtual osg::Vec3 getLocalUpVector() const;
+        virtual void setPositionLatLongHeight(const double latitude, const double longitude, const double height);
+        void setPositionLatLongHeight(const osg::Vec3& llh);
+        osg::Vec3 getPositionLatLongHeight();
+        void getPositionLatLongHeight(double& latitude, double& longitude, double& height);
+        bool isGeocentric();
+
+        // PositionedNetworkObject
+		moonet::Client* getOwner() const;
+		bool setOwner(moonet::Client *client);
+		bool isConstructed() const;
+		bool isRemote() const;
+		void setCloaked(const bool value);
+		bool isCloaked();
+		void setSerializationInterval(const float seconds, const float fullseconds = 0);
+		float getSerializationInterval();
+		float getFullSerializationInterval();
+		bool isVisibleToClient(moonet::Client *client);
+
+
+		// From superclasses that are omitted because tolua doesn't handle multiple inheritance
+		// very well...
+		const char* libraryName();
+		const char* className();
+
+		// Component
+		virtual void realize();
+		virtual void unrealize();
+		inline bool isRealized();
+		virtual void update(const double dt);
+		virtual void reset();
+		virtual void setResetState();
+		void setTag(const std::string& tag, const bool value = true);
+		bool hasTag(const std::string& tag) const;
+		enum TraversalMode { WITH_CONTAINER, SPECIFIC };
+		void setRealizeMode(TraversalMode& mode) { realizeMode = mode; }
+		TraversalMode getRealizeMode() const { return realizeMode; }
+		void setUpdateMode(TraversalMode& mode) { updateMode = mode; }
+		TraversalMode getUpdateMode() const { return updateMode; }
+
+		// ComponentContainer
+		virtual void addComponent(Component *component);
+		virtual void removeComponent(Component *component);
+		unsigned int getNumComponents() const;
+		Component* getComponent(const unsigned int index);
+		Component* getComponentByTag(const std::string& tag);
+
+		// ParameterContainer
+		unsigned int getNumParameters() const;
+		Parameter* getParameter(const unsigned int index);
+		const Parameter* getParameter(const unsigned int index) const;
+		virtual Parameter* getParameter(const std::string& name);
+};
+	
+}
+
+$[
+
+-- Convenience method - get position in x/y/z coordinates
+function moon.Component:positionXYZ()
+	v = self:getPosition()
+	return v:get()
+end
+
+-- Convenience method - get position in lat/lon (degrees) and height (meters)
+function moon.Component:positionLLH()
+	v = self:getPositionLatLongHeight()
+	return v:x()*180/math.pi, v:y()*180/math.pi, v:z()
+end
+
+-- Convenience method - get attitude in heading/pitch/roll (degrees)
+function moon.Component:attitude()
+	v = self:getAttitude()
+	return (v*180/math.pi):get()
+end
+
+$]

@@ -1,0 +1,263 @@
+<moon>
+
+	<Configuration>
+		<plugin name="moodyn"/>
+		<plugin name="maudio"/>
+	</Configuration>
+	
+	<Controls>
+		<key char="t" control="CameraMode"/>
+		<key char="r" negchar="f" control="Rise" incrate="0.5" decrate="1"/>
+		<key char="w" negchar="s" control="Move" incrate="2" decrate="5"/>
+		<key char="d" negchar="a" control="Strafe" incrate="5" decrate="5"/>
+		<key char="e" negchar="q" control="Yaw" incrate="2" decrate="2"/>
+		<key char="h" negchar="y" control="Pitch" incrate="5" decrate="5"/>
+		<key char="c" negchar="z" control="Roll" incrate="5" decrate="5"/>
+		<key char="1" control="AutoHover"/>
+		<key char="2" control="AutoAttitude"/>
+		<key char="3" control="FlipControl"/>
+		<mouse axis="x" control="Yaw" button="left" resetrelease="true" gain="2" nullzone="0.05"/>
+		<mouse axis="y" control="Pitch" button="left" resetrelease="true" gain="2" nullzone="0.05"/>
+		<joystick name="P880" axis="0" control="Yaw" nullzone="0.01"/>
+		<joystick name="P880" axis="1" control="Rise" invert="true" nullzone="0.01"/>
+		<joystick name="P880" axis="2" control="Move" invert="true" nullzone="0.01"/>
+		<joystick name="P880" axis="3" control="Strafe" nullzone="0.1"/>
+		<joystick name="P880" button="0" control="AutoHover"/>
+		<joystick name="P880" button="1" control="AutoAttitude"/>
+		<joystick name="P880" button="2" control="FlipControl"/>
+		<joystick name="P880" button="5" control="CameraMode"/>
+	</Controls>
+	
+	<templates>
+		<Thruster name="thruster">
+		
+			<Model file="thruster1.ac" yup="true"/>
+			<Geometry>
+				<box sides="2,2,2"/>
+				<box sides="1,1.5,1" pos="0,1.75,0"/>
+				<box sides="1,1.5,1" pos="0,-1.75,0.5"/>
+			</Geometry>
+			<Body><mass value="100"/><box sides="2,4,2"/></Body>
+			<Drag cd="0.05" debugscale="0.01"/>
+			
+			<!-- CAMERA & INSTRUMENTATION -->
+			
+			<Dynamic name="cambody" pos="0,1.2,0.7" intersect="false" visible="false">
+				<Body><mass value="1"/><box sides="1,1,1"/></Body>
+				<Joint type="universal" anchor="0,-0.5,-0.5" axis="1,0,0" axis2="0,1,0">
+					<spring value="300"/>
+					<damp value="10"/>
+					<spring2 value="50"/>
+					<damp2 value="5"/>
+				</Joint>
+				<Camera name="drivercam" tag="driver" free="false" infolevel="3">
+					<yaw unit="degree" min="-90" max="90"/>
+					<pitch unit="degree" min="-50" max="50"/>
+					<roll unit="degree" min="-10" max="10"/>
+					<forward min="-1.5" max="0.5"/>
+					<right min="-0.3" max="0.3"/>
+					<up min="0" max="0.5"/>
+					<fov value="70"/>
+					<clip near="0.1" far="20000"/>
+					<infolevel value="3"/>
+					
+					<Instrument tag="hud">
+						<label name="fcs_mode" size="0.03" pos="-0.95,0.95,0">FCS ERROR</label>
+						<text name="height" size="0.03" pos="-0.95,0.9,0">HEIGHT %.1f</text>
+						<Modifier param="root height" target="height"/>
+					</Instrument>
+					<BarGraph name="bars" tag="hud" pos="-0.9,0,0">
+						<bar name="rise" length="0.2" width="0.02" markwidth="0.035" markthick="0.005" pos="-0.02 0 0" vertical="true" min="-1" max="1"/>
+						<label pos="-0.02 0 0" text="VERT SPD" size="0.02" layout="vertical" align="center_center" color="0.5, 0.5, 0.5, 0.5"/>
+						<Modifier param="rise" target="rise mark"/>
+						<Modifier param="speed_z" target="rise bar" ratio="0.1"/>
+
+						<bar name="move" length="0.2" width="0.02" markwidth="0.035" markthick="0.005" pos="0.02 0 0" vertical="true" min="-1" max="1"/>
+						<label pos="0.02 0 0" text="LONG SPD" size="0.02" layout="vertical" align="center_center" color="0.5, 0.5, 0.5, 0.5"/>
+						<Modifier param="move" target="move mark"/>
+						<Modifier param="speed_y" target="move bar" ratio="0.01"/>
+
+						<label pos="0 -0.15 0" text="LAT SPD" size="0.02" align="center_center" color="0.5, 0.5, 0.5, 0.5"/>
+						<bar name="strafe" length="0.1" width="0.02" markwidth="0.035" markthick="0.005" pos="0 -0.15 0" min="-1" max="1"/> 
+						<Modifier param="strafe" target="strafe mark"/>
+						<Modifier param="speed_x" target="strafe bar" ratio="0.1"/>
+					</BarGraph>
+				</Camera>
+			</Dynamic>
+			<Camera name="trackcam" tag="track" infolevel="3" pos="0,-20,5"/>
+			
+			<!-- LANDING GEAR -->
+			
+			<Dynamic name="gear_left" tag="gear" pos="-1,0,-1.5" intersect="false">
+				<Geometry><box sides="0.5,3,0.1"/></Geometry>
+				<Body><mass value="5"/><box sides="1,3,0.5"/></Body>
+				<Joint type="hinge" anchor="0.5,0,0.5" axis="0,1,0">
+					<spring value="3000"/>
+					<damp value="100"/>
+				</Joint>
+			</Dynamic>
+			<Dynamic name="gear_right" tag="gear" pos="1,0,-1.5" intersect="false">
+				<Geometry><box sides="0.5,3,0.1"/></Geometry>
+				<Body><mass value="5"/><box sides="1,3,0.5"/></Body>
+				<Joint type="hinge" anchor="-0.5,0,0.5" axis="0,1,0">
+					<spring value="3000"/>
+					<damp value="100"/>
+				</Joint>
+			</Dynamic>
+
+			<!-- ENGINES -->
+			
+			<templates>
+				<Dynamic name="engine">
+					<Geometry><capsule radius="0.25" length="1"/></Geometry>
+					<Body><mass value="5"/><capsule radius="0.25" length="1"/></Body>
+					<Source name="drive" file="audio/hydraulic.aif" loop="true" trigger="play/pause" gain="0.2" refdistance="10">
+						<Table param="rotspeed" target="pitch">0.2:0 0.21:1.0 0.4:1.1</Table>
+						<Table param="attach torque" target="gain">0:0 50:0.3 10000:0.5</Table>
+						<Range param="attach steer" target="gain" lo="0.005"/>
+					</Source>
+					<Source name="rumble" file="audio/thruster/40mm_fan_rumble_lo.wav" loop="true" trigger="play/pause" gain="2" refdistance="100">
+						<Table param="eng force" target="gain">100:0 2000:1</Table>
+						<Table param="eng force" target="pitch">0:0.9 2000:1.5</Table>
+					</Source>
+					<Source name="burner" file="audio/thruster/40mm_fan_rumble_hi.wav" loop="true" trigger="play/pause" refdistance="50" pos="0.3,0,-0.3">
+						<Table param="eng force" target="gain">500:0 2000:1</Table>
+						<Table param="eng force" target="pitch">500:0.5 2000:1</Table>
+					</Source>
+				</Dynamic>
+			</templates>
+			<engine name="engine_left"  pos="-2.5,-0.1,0.75">
+				<Joint name="attach" type="universal" anchor="0.5,0,0" axis="0,1,0" axis2="1,0,0">
+					<maxforce value="1000"/>
+					<steervelocity value="1"/>
+					<Table param="strafe" target="steer">-1:-0.3 1:0.3</Table>
+					<maxforce2 value="1000"/>
+					<steervelocity2 value="1"/>
+					<Modifier param="root att_pitch" target="steer2" ratio="-1"/>
+					<Table param="yaw" target="steer2">-1:0.5 1:-0.5</Table>
+					<Table param="move" target="steer2">-1:0.6 1:-0.6</Table>
+				</Joint>
+				<ControlForce name="eng" debugscale="0.01">
+					<Table param="rise" target="z">0:0 1:2000</Table>
+					<Table param="roll" target="z">-1:-250 0:0 1:250</Table>
+					<Table param="yaw" target="z">-1:300 0:0 1:300</Table>
+					<Table param="move" target="z">-1:300 0:0 1:300</Table>
+				</ControlForce>
+			</engine>
+			<engine name="engine_right" pos="2.5,-0.1,0.75">
+				<Joint name="attach" type="universal" anchor="-0.5,0,0" axis="0,1,0" axis2="1,0,0">
+					<maxforce value="1000"/>
+					<steervelocity value="1"/>
+					<Table param="strafe" target="steer">-1:-0.3 1:0.3</Table>
+					<maxforce2 value="1000"/>
+					<steervelocity2 value="1"/>
+					<Modifier param="root att_pitch" target="steer2" ratio="-1"/>
+					<Table param="yaw" target="steer2">-1:-0.5 1:0.5</Table>
+					<Table param="move" target="steer2">-1:0.6 1:-0.6</Table>
+				</Joint>
+				<ControlForce name="eng" debugscale="0.01">
+					<Table param="rise" target="z">0:0 1:2000</Table>
+					<Table param="roll" target="z">-1:250 0:0 1:-250</Table>
+					<Table param="yaw" target="z">-1:300 0:0 1:300</Table>
+					<Table param="move" target="z">-1:300 0:0 1:300</Table>
+				</ControlForce>
+			</engine>
+			<Dynamic name="engine_tail" pos="0,-3.5,0.5">
+				<Geometry><capsule radius="0.25" length="1"/></Geometry>
+				<Body><mass value="5"/><capsule radius="0.25" length="1"/></Body>
+				<Joint name="attach" type="hinge" anchor="0,0.5,0" axis="1,0,0">
+					<maxforce value="1000"/>
+					<steervelocity value="1"/>
+					<steertolerance value="0.001"/>
+					<Modifier param="root att_pitch" target="steer" ratio="-1"/>
+					<Table param="move" target="steer">-1:0.5 1:-0.5</Table>
+				</Joint>
+				<ControlForce name="eng" debugscale="0.01">
+					<Table param="pitch" target="z">-1:500 0:0 1:-500</Table>
+				</ControlForce>
+				<Source name="drive" file="audio/hydraulic.aif" loop="true" trigger="play/pause" gain="0.2" refdistance="10">
+					<Table param="rotspeed" target="pitch">0.2:0 0.21:1.0 1:1.1</Table>
+					<Table param="attach torque" target="gain">0:0 100:0 1000:1</Table>
+					<Range param="attach steer" target="gain" lo="0.005"/>
+				</Source>
+				<Source name="rumble" file="audio/thruster/40mm_fan_rumble_hi.wav" loop="true" trigger="play/pause" pitch="1.5" gain="0.5" refdistance="10">
+					<Table param="eng force" target="gain">0:0 2000:2</Table>
+					<Table param="eng force" target="pitch">0:0.9 2000:1.5</Table>
+				</Source>
+			</Dynamic>
+			
+			<!-- FLIGHT CONTROL -->
+			
+			<PID tag="vspeed" p="0.1" i="0.5" d="0.001" intmax="1" refscale="10"/>
+			<PID tag="rate_yaw" p="1"/>
+			<PID tag="rate_pitch" p="1"/>
+			<PID tag="rate_roll" p="1"/>
+			<PID tag="att_pitch" p="3" i="0.25" d="1" intmax="1" refscale="0.5"/>
+			<PID tag="att_roll" p="3" i="0.25" d="1" intmax="1" refscale="0.5"/>
+			<PID tag="move" p="0.1" i="0.1" d="0.001" intmax="1" refscale="10"/>
+			<PID tag="strafe" p="0.1" i="0.1" d="0.001" intmax="1" refscale="10"/>
+			<PID tag="heading" p="0.5" i="0.1"/>
+			<PID tag="straight" p="0.01" refscale="5" limit="0.5"/>
+			<!-- for no engine tilt: <PID tag="move" p="0.001" d="0.01" refscale="100" limit="0.01"/>-->
+			<pitchlimit lo="-30" hi="30"/>
+			<rolllimit lo="-30" hi="30"/>
+			
+			<Script name="testscript">
+				function self:onRealize()
+					self:setScriptUpdateInterval(0.1)
+					self.drivercam = self:findRelatedByTag("driver")
+					self.fcs_mode_label = moon.cast(self.drivercam:getComponent(0)):getLabel("fcs_mode")
+				end
+				function self:onUnrealize()
+					self:setScriptUpdateInterval(0)
+				end
+				function self:onUpdate(dt)
+					thruster = moon.cast(self)
+					fcs_mode = "FCS"
+					if (thruster:getControl("AutoHover"):getValue() > 0.1) then
+						fcs_mode = fcs_mode .. " HOVER"
+					end
+					if (thruster:getControl("AutoAttitude"):getValue() > 0.1) then
+						fcs_mode = fcs_mode .. " ATT"
+					end
+					if (thruster:isControlsFlipped()) then
+						fcs_mode = fcs_mode .. " FLIP"
+					end
+					if (thruster:isOnGround()) then
+						fcs_mode = fcs_mode .. " GROUND"
+					end
+					if (thruster:isRecoveringFCS()) then
+						fcs_mode = fcs_mode .. " RECOVERY"
+						self.fcs_mode_label:setColor(vec(1,0,0,1));
+					else
+						self.fcs_mode_label:setColor(vec(1,1,1,1));
+					end
+					self.fcs_mode_label:setText(fcs_mode)
+				end
+			</Script>
+		</Thruster>
+	</templates>
+	
+	<Scenario name="testthruster">
+
+		<Static name="ground" pos="0,0,0" tag="noselect" shadow="receive">
+			<Geometry>
+				<plane normal="0,0,1"/>
+			</Geometry>
+		</Static>
+		<Camera pos="0,-50,15" att="0, -15, 0" free="true" infolevel="3"/>
+		<thruster pos="0,0,1.5"/>
+		
+		<Static name="obstacle1" pos="0,20,0" shadow="receive">
+			<Geometry>
+				<cylinder length="10" radius="1" pos="0,0,5"/>
+				<box sides="10,10,1" pos="0,0,10"/>
+			</Geometry>
+		</Static>
+		
+		<Environment>
+			<lighting mode="skylight"/>
+			<shadow/>
+		</Environment>
+	</Scenario>
+</moon>

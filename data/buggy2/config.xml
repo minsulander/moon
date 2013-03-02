@@ -1,0 +1,36 @@
+<moon>
+	<Configuration>
+		<plugin name="moodyn"/>
+		<plugin name="maudio"/>
+		<simfreq value="200"/>
+	</Configuration>
+	
+	<Controls>
+		<joystick name="P880" axis="0" control="Strafe"/>
+		<joystick name="P880" axis="1" control="Move" invert="true"/>
+		<joystick name="P880" button="2" control="CameraMode" />
+		<joystick name="P880" button="5" control="Reset" />
+		<joystick name="P880" button="7" control="Fire" />
+		<key char=" " control="Brake"/>
+		<key sym="shift-control-backspace" control="Reset"/>
+		<key sym="f" control="Reset"/>
+		<key sym="up" negsym="down" control="Move" incrate="2" decrate="4"/>
+		<key sym="right" negsym="left" control="Strafe" incrate="3" decrate="4"/>
+		<key char="t" control="CameraMode"/>
+	</Controls>
+	
+	<DynamicsConfiguration>
+		<contacts>
+			<contact material1="wheelrub">
+				<mu value="3"/>
+				<approx1 value="true"/>
+				<slip1 value="0.05"/>
+				<slip2 value="0.002"/>
+			</contact>
+			<contact material1="chassis">
+				<mu value="1000"/>
+			</contact>
+		</contacts>
+	</DynamicsConfiguration>
+	
+</moon>

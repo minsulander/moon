@@ -1,0 +1,10 @@
+$#include <moon/FactoryProduct.h>
+
+namespace moon {
+
+	class FactoryProduct : public osg::Object {
+	public:
+		FactoryProduct *getTemplate();
+	};
+
+}

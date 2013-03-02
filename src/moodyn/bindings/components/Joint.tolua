@@ -1,0 +1,118 @@
+$#include <moodyn/components/Joint.h>
+
+namespace moodyn
+{
+	
+	class Joint : public moon::Component {
+	public:
+		enum JointType {
+			NONE=0,
+			BALL,
+			HINGE,
+			SLIDER,
+			UNIVERSAL,
+			HINGE2,
+			FIXED,
+			AMOTOR
+		};
+		
+		enum JointParameter {
+			LOSTOP, 
+			HISTOP,
+			VELOCITY,
+			MAXFORCE,
+			FUDGE,
+			BOUNCE,
+			CFM,
+			STOP_ERP,
+			STOP_CFM,
+			SUSPENSION_ERP,
+			SUSPENSION_CFM,
+			LOSTOP2,
+			HISTOP2,
+			VELOCITY2,
+			MAXFORCE2,
+			FUDGE2,
+			BOUNCE2,
+			CFM2,
+			STOP_ERP2,
+			STOP_CFM2,
+			SUSPENSION_ERP2,
+			SUSPENSION_CFM2,
+			LOSTOP3,
+			HISTOP3,
+			VELOCITY3,
+			MAXFORCE3,
+			FUDGE3,
+			BOUNCE3,
+			CFM3,
+			STOP_ERP3,
+			STOP_CFM3,
+			SUSPENSION_ERP3,
+			SUSPENSION_CFM3,
+			_END_ODE_PARAMETERS,
+			
+			SPRING,
+			DAMP,
+			SPRING2,
+			DAMP2,
+			STEER_VELOCITY,
+			STEER_VELOCITY2,
+			STEER_TOLERANCE,
+			STEER_TOLERANCE2
+		};
+		
+		const JointType& getType() { return type; }
+		
+		/// Get joint anchor (if applicable)
+		osg::Vec3 getAnchor(const bool relative = true, const bool relativebody1 = true);
+		/// Set joint anchor (if applicable)
+		void setAnchor(const osg::Vec3& anchor, const bool relative = true, const bool relativebody1 = true);
+		/// Get joint axis (if applicable)
+		osg::Vec3 getAxis(const bool relative = true, const bool relativebody1 = true);
+		/// Set joint axis (if applicable)
+		void setAxis(const osg::Vec3& axis, const bool relative = true, const bool relativebody1 = true);
+		/// Get joint second axis (if applicable)
+		osg::Vec3 getAxis2(const bool relative = true, const bool relativebody1 = true);
+		/// Set joint second axis (if applicable)
+		void setAxis2(const osg::Vec3& axis2, const bool relative = true, const bool relativebody1 = true);
+		/// Set a joint parameter
+		void setParameter(JointParameter parameter, const double value);
+		/// Get a joint parameter
+		double getParameter(JointParameter parameter);
+		
+		moodyn::Body* getBody1();
+		moodyn::Body* getBody2();
+		void attach(moodyn::Body* body1, moodyn::Body* body2 = NULL);
+		void detach();
+		
+		float getDeflection();
+		float getDeflection2();
+		float getRate();
+		float getRate2();
+		void addForce(const float F1, const float F2=0, const float F3=0);
+		void setRefDeflection(const float value);
+		float getRefDeflection() const;
+		void setRefDeflection2(const float value);
+		float getRefDeflection2() const;
+		void steer(const float deflection, const float velocity = 0.f);
+		void steer2(const float deflection, const float velocity = 0.f);
+		
+		osg::Vec3 getForce1();
+		osg::Vec3 getForce2();
+		osg::Vec3 getTorque1();
+		osg::Vec3 getTorque2();
+		
+		void setBreakImpulse(const double impulse);
+		double getBreakImpulse() const;
+		void setBreakAngularImpulse(const double impulse);
+		double getBreakAngularImpulse() const;
+		
+		void realize();
+		void unrealize();
+		
+	};
+	
+}
+
+#endif

@@ -1,0 +1,29 @@
+<moon>
+
+	<templates>
+			<Dynamic name="Box">
+				<Geometry>
+					<box sides="1,1,1"/>
+				</Geometry>
+				<Body>
+					<mass value="1"/>
+				</Body>
+			</Dynamic>
+			
+	</templates>
+	<Scenario>
+	
+			<Box pos="0,0,10" att="0,20,40"/>
+
+			<Static name="ground" pos="0,0,-3" tag="noselect">
+				<Geometry>
+					<plane normal="0,0,1"/>
+				</Geometry>
+			</Static>
+
+			<Camera pos="0,-50,15" att="0, -15, 0">
+				<free value="true"/>
+			</Camera>
+	</Scenario>
+	
+</moon>

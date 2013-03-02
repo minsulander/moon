@@ -1,0 +1,12 @@
+$#include <moon/Scheduler.h>
+
+namespace moon {
+	class Scheduler {
+	public:
+		void schedule(const std::string& scriptFunctionName, const double deltaTime, const bool repeat = false);
+		void scheduleAt(const std::string& scriptFunctionName, const double time, const bool repeat = false, const double interval = 0.0);
+		void scheduleAtGameTime(const std::string& scriptFunctionName, const double time, const bool repeat = false, const double interval = 0.0);
+		void unschedule(const std::string& scriptFunctionName);
+		void clear();
+	};
+}

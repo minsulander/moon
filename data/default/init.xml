@@ -1,0 +1,17 @@
+<moon>
+	<Configuration>
+		<plugin name="moodyn"/>
+		<plugin name="maudio"/>
+	</Configuration>
+	<Environment>
+		<clear color="0.01,0.05,0.1,1"/>
+		<lighting mode="headlight" ambient="0.1,0.1,0.1,1"/>
+		<light ambient="0,0,0,0" diffuse="0.05,0.05,0.05,1"/>
+		<fog color="0.01,0.05,0.1,1" start="100" end="1000"/>
+	</Environment>
+
+	<include file="../common/buggy/config.xml"/>
+	<include file="../common/buggy/buggy.xml"/>
+	<include file="templates.xml"/>
+	<include file="scenario.xml"/>
+</moon>

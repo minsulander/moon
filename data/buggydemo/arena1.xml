@@ -1,0 +1,26 @@
+<moon>
+	<Scenario name="arena1">
+		<objects netmode="common">
+			<GroundPlane pos="0,0,-1"/>
+			<Static name="Arena" model="arena1.ac" yup="true" geometry="bounds" tag="noselect"/>
+			<SkyDome name="Sky" image="textures/sky/dome/dayfair.jpg" start="-3" tag="noselect"/>
+			<Environment>
+				<lighting mode="headlight" ambient="0.2,0.2,0.2,1" diffuse="0.3,0.3,0.3,1"/>
+			</Environment>			
+			<Camera pos="0,-45,5" att="0, -15, 0" free="true"/>
+		</objects>
+
+		<objects netmode="server">
+			<Ball pos="0,0,5.7"/>
+		</objects>
+
+		<objects netmode="server" spawn="true">
+			<DemoBuggy pos="0,-36,1.6">
+				<SimpleMotion speed="100" acc="100" rotspeed="10000" angacc="1000"/>
+			</DemoBuggy>
+			<DemoBuggy pos="0,36,1.6" att="180,0,0"/>
+			<DemoBuggy pos="10,36,1.6" att="180,0,0"/>
+			<DemoBuggy pos="-10,36,1.6" att="180,0,0"/>
+		</objects>
+	</Scenario>
+</moon>

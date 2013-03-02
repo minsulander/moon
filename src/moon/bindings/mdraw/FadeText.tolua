@@ -1,0 +1,6 @@
+$#include <mdraw/FadeText.h>
+
+namespace mdraw {
+
+	extern void notify(const std::string& message, const osg::Vec4& color = osg::Vec4(1,1,1,1), const double start = 5, const double length = 1);
+}

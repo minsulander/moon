@@ -1,0 +1,31 @@
+<!--=
+== Kinematic objects example ==
+This scenario shows kinematic (moving) objects with velocities and animation paths.
+=-->
+<moon>
+
+	<templates>
+		<Kinematic name="Ball" model="buggydemo/soccerball.ac" label="name"/>
+	</templates>
+
+	<Scenario name="Kinematic Example">
+		<Ball name="rotating">
+			<angvel value="0 0 -1"/>
+		</Ball>
+		<Ball name="circling" pos="-3 0 0">
+			<angvel value="0 0 -1" rel="true"/>
+			<vel value="0 3.14 0" rel="true"/>
+		</Ball>
+		<Ball name="animated">
+			<animation>
+				<at t="0" pos="0 0 3"/>
+				<at t="1" pos="-3 0 0"/>
+				<at t="2" pos="0 0 -3"/>
+				<at t="3" pos="3 0 0"/>
+				<at t="4" pos="0 0 3"/>
+			</animation>
+		</Ball>
+		<Camera name="camera" pos="0 -20 0"/>
+	</Scenario>
+
+</moon>

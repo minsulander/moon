@@ -1,0 +1,19 @@
+$#include <moodyn/objects/PhysicalObject.h>
+
+namespace moodyn {
+
+	class PhysicalObject : public moon::KinematicObject {
+		virtual void setGeometry(moodyn::Geometry *geometry);
+		moodyn::Geometry* getGeometry();
+
+		// Destructible		
+		virtual void damage(const float magnitude, const unsigned int category = 0);
+		float getHealth() const;
+		void setHealth(const float value);
+		virtual void destroy();
+		bool isDestroyed() const;
+		void setDamageResistance(const float ratio, const float threshold = 0.f, const unsigned int category = 0);
+		float getHealthReduction(const unsigned int category = 0) const;
+	};
+
+}

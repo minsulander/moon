@@ -1,0 +1,21 @@
+$#include <moon/Scenario.h>
+
+namespace moon {
+
+	class Scenario : public ComponentContainer {
+	public:
+		void setName(const std::string& name);
+		std::string getName() const;
+
+		//virtual void reset();
+		//virtual void realize();
+		//virtual void unrealize();
+
+		//BaseObject* getObject(const std::string& name);
+		//void removeObject(BaseObject *object);
+
+		void setDisplayMode(const unsigned int mode);
+		unsigned int getDisplayMode() const;
+	};
+
+}

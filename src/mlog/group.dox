@@ -1,0 +1,14 @@
+/**
+\ingroup core
+\defgroup log Logging
+Basic logging functionality for user feedback and developer assistance.
+*/
+
+//@{
+
+/**
+\namespace mlog
+\brief The namespace containing basic logging functionality.
+*/
+
+//@}

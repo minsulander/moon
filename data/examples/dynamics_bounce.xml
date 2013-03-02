@@ -1,0 +1,70 @@
+<!--=
+== Dynamics bounce example ==
+This is a scenario with three bouncing balls and some physical objects.
+=-->
+<moon>
+
+	<!-- Application-level configuration specifying that the moodyn plugin is required -->
+	<Configuration>
+		<plugin name="moodyn"/>
+	</Configuration>
+	
+	<!-- Application-level object: configuration for the dynamics plugin -->
+	<DynamicsConfiguration>
+		<contacts>
+			<contact material1="everbounce">
+				<bounce value="1"/>
+				<mu value="infinity"/>
+			</contact>
+		</contacts>
+	</DynamicsConfiguration>
+
+	<!-- Template objects to be used in the scenario -->
+	<templates>
+		<!-- A static ground plane -->
+		<Static name="GroundPlane" tag="noselect">
+			<Geometry><plane normal="0,0,1"/></Geometry>
+		</Static>
+	
+		<!-- A ball that will bounce forever -->
+		<Dynamic name="BounceBall" model="buggydemo/soccerball.ac">
+			<Body><mass value="1"/><sphere radius="1"/></Body>
+			<Geometry material="everbounce"><sphere radius="1"/></Geometry>
+		</Dynamic>
+		
+		<!-- A static platform made up of composite geometry -->
+		<Static name="CompositePlatform">
+			<Geometry>
+				<box sides="3,3,0.5"/>
+				<box sides="2,2,0.5" pos="0,0,1"/>
+				<box sides="1,1,0.5" pos="0,0,2"/>
+			</Geometry>
+		</Static>
+		
+		<!-- A platform which is jointed to the ground -->
+		<Dynamic name="JointedPlatform">
+			<Body><box sides="3,3,0.5"/><mass value="10"/></Body>
+			<Geometry><box sides="3,3,0.5"/></Geometry>
+			<Joint type="slider" axis="0,0,-10">
+				<spring value="300"/>
+				<damp value="50"/>
+			</Joint>
+		</Dynamic>
+	</templates>
+
+	<Scenario name="Dynamics Bounce Example">
+	
+		<Camera pos="0,-20,5"/>		
+		<GroundPlane name="ground"/>
+		
+		<BounceBall name="ball1" pos="-5,0,10"/>
+		
+		<BounceBall name="ball2" pos="0,0,10"/>
+		<CompositePlatform name="platform2" pos="0,0,1"/>
+		
+		<BounceBall name="ball3" pos="5,0,10"/>
+		<JointedPlatform name="platform3" pos="5,0,3"/>
+		
+	</Scenario>
+
+</moon>

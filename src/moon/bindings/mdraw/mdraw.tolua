@@ -1,0 +1,4 @@
+$pfile "../../moon/bindings/disable_msvc_warnings.tolua"
+$pfile "ConsoleWindow.tolua"
+$pfile "FadeText.tolua"
+$pfile "utils.tolua"

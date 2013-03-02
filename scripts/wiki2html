@@ -1,0 +1,113 @@
+#!/usr/bin/perl
+
+print("<html>\n<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"style/wiki2html.css\"/>\n</head>\n<body>\n");
+$list = 0;
+$pre = 0;
+$toclevel = 0;
+
+sub resetstates {
+		my $skip = shift(@_);
+		if (not $skip =~ /list/) {
+			while ($list > 0) {
+				$_ = "</ul>\n$_";
+				$list--;
+			}
+		}
+		if (not $skip =~ /pre/) {
+			$_ = "</pre>$_" if ($pre);
+			$pre = 0;
+		}
+		if (not $skip =~ /para/) {
+			$_ = "</p>\n$_" if ($inp);
+			$inp = 0;
+		}
+}
+
+while (<>) {
+	s/'''(.*?)'''/<b>$1<\/b>/g;
+	s/''(.*?)''/<i>$1<\/i>/g;
+	s/\[\[(.*?)\|(.*)\]\]/<a href="$1">$2<\/a>/g;
+	
+	# Headings
+	if (/^(=+)\s*(.*?)\s*=+/) {
+		$title = $2;
+		$level = length($1);
+		while ($toclevel < $level) {
+			$toc .= "<ul>";
+			$toclevel++;
+		}
+		while ($toclevel > $level) {
+			$toc .= "</ul>";
+			$toclevel--;
+		}
+		$toc .= "<li class=\"toclevel-$toclevel\"><a href=\"#$title\">$title</a>\n";
+		#$spaces = "";
+		#for ($i = 0; $i < ($level-1)*8; $i++) {
+		#	$spaces .= "&nbsp;";
+		#}
+		#$toc .= "$spaces<a href=\"#$title\">$title</a><br/>\n";
+
+		s/^====\s*(.*?)\s*====/<a name="$1"><\/a><h4>$1<\/h4>/;
+		s/^===\s*(.*?)\s*===/<a name="$1"><\/a><h3>$1<\/h3>/;
+		s/^==\s*(.*?)\s*==/<a name="$1"><\/a><h2>$1<\/h2>/;
+		s/^=\s*(.*?)\s*=/<a name="$1"><\/a><h1>$1<\/h1>/;
+
+		resetstates();
+	} elsif (/^----/) {
+		$_ = "<hr/>\n";
+		resetstates();
+	} 
+	# Table for TOC - needs to be improved for more elaborate tables
+	elsif (/(^{\|)|(^\|)/) {
+		s/{\|(.*)/<table $1><tr>/;
+		s/\|}/<\/tr><\/table>/;
+		s/^\|(.*)/<td>$1<\/td>/;
+		resetstates();
+	}
+	# Lists
+	elsif (/^(\*+) /) {
+		$level = length($1);
+		s/^\*+/<li>/;
+		chomp($_);
+		$_ .= "</li>\n";
+		if ($list > $level) {
+			while ($list > $level) {
+				$_ = "</ul>\n$_";
+				$list--;
+			}
+		} else {
+			while ($list < $level) {
+				$_ = "<ul>\n$_";
+				$list++;
+			}
+		}
+		resetstates("list");
+	}
+	
+	# Pre-formatted
+	elsif (/^ /) {
+		s/</&lt;/g;
+		s/>/&gt;/g;
+		$_ = "<pre>$_" if (not $pre);
+		$pre = 1;
+		resetstates("pre");
+	} elsif (/^\n$/) {
+		resetstates();
+	} else {
+		if (not $inp) {
+			$inp = 1;
+			$_ = "<p>\n$_";
+		}
+		resetstates("para");
+	}
+	#s/^\n$/<p\/>\n/;
+	push(@lines, $_);
+}
+
+for ($i = 0; $i < $#lines; $i++) {
+	$lines[$i] =~ s/__TOC__/<table id="toc" class="toc"><tr><td><div id=\"toctitle\"><h2>Contents<\/h2><\/div><br\/>\n$toc<\/td><\/tr><\/table>/;
+}
+
+print(@lines);
+print("</body>\n</html>\n");
+

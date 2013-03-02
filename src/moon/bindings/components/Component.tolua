@@ -1,0 +1,41 @@
+$#include <moon/components/Component.h>
+
+namespace moon {
+
+	class Component {
+	
+		moon::Component* getTemplate();
+	
+		const char* libraryName();
+		const char* className();
+		void setName(const std::string& name);
+		std::string getName() const;
+		
+		virtual void realize();
+		virtual void unrealize();
+		inline bool isRealized() { return realized; }
+		virtual void update(const double dt) {}
+		virtual void reset();
+		virtual void setResetState();
+		
+		void setTag(const std::string& tag, const bool value = true);
+		bool hasTag(const std::string& tag) const;
+
+		enum TraversalMode { WITH_CONTAINER, SPECIFIC };
+		void setRealizeMode(TraversalMode& mode) { realizeMode = mode; }
+		TraversalMode getRealizeMode() const { return realizeMode; }
+		void setUpdateMode(TraversalMode& mode) { updateMode = mode; }
+		TraversalMode getUpdateMode() const { return updateMode; }
+	};
+	
+	class ComponentContainer : public Component {
+		virtual void addComponent(Component *component);
+		virtual void removeComponent(Component *component);
+		
+		unsigned int getNumComponents() const;
+		Component* getComponent(const unsigned int index);
+		Component* getComponentByTag(const std::string& tag);
+		
+	};
+
+}

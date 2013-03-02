@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+# This script extracts specially tagged comments from the moon engine source files
+# and generates MediaWiki documentation.
+
+foreach $file (@ARGV) {
+	open(F, $file) || die("$file: $!\n");
+	if ($file =~ /\.mediawiki$/) {
+		@lines = <F>;
+		print(@lines);
+	} elsif ($file =~ /\.xml$/) {
+		while (<F>) {
+			if (/<!\-\-\=/) {
+				s/<!\-\-\=//;
+				$printit = 1 unless (/\=\-\-\>/);
+				s/\=\-\-\>//;
+				print $_;
+			} elsif (/\=\-\-\>/) {
+				s/\=\-\-\>//;
+				print $_;
+				$printit = 0;
+			} elsif ($printit) {
+				print $_;
+			} else {
+				print " $_";
+			}
+		}
+	} else {
+		while (<F>) {
+			chomp($_);
+			next if (not (/^\s*\/\/\=(.*)/));
+			$_ = $1;
+			s/alias:\s+(\w+)/alias: '''$1'''/;
+			s/element:\s+(\w+)/element: '''$1'''/;
+			s/attribute:\s+(\w+)/attribute: '''$1'''/;
+			s/components?:?\s+(\w+)/component: '''[[#$1|$1]]'''/;
+			s/superclass:?\s+(\w+)/superclass '''[[#$1|$1]]'''/;
+			s/"\((.*?)\)"/"''\($1\)''"/g;
+			if (/^(\=+) (.*)/) {
+				print("\n$1 $2 $1");
+			} elsif (s/^\.\s*//) {
+				print("<br>$_");
+			} else {
+				print("\n$_");
+			}
+		}
+	}
+}
+print("\n");

@@ -1,0 +1,54 @@
+<!--=
+== Scripted object example ==
+This scenario shows an example object with scripted behaviour.
+=-->
+<moon>
+	<!-- 
+		Global initialization parsed when the scenario is loaded.
+		All scripts are run in the same Lua interpreter, so global variables are available
+		to every script everywhere (handle with care!).
+	-->
+	<Script when="parse">
+		balltravel = 8
+	</Script>
+	
+	<templates>
+		<!-- A scripted object -->
+		<Kinematic name="ScriptedBall" model="buggydemo/soccerball.ac" label="name">
+			<!-- 
+				Script run when the object is realized.
+				Note the use of 'self' to refer to the unique instance of the object.
+			-->
+			<Script when="realize">
+				print(self:getName() .. " realized")
+				self:setScriptUpdateInterval(1+math.random())
+				self.direction = -1
+				
+				function self:onUpdate(dt)
+					self.direction = -self.direction
+					moon.cast(self):setVelocity(vec(0,0,balltravel/dt*self.direction))
+					if (self.direction > 0) then
+						moon.cast(self):setLabel(self:getName() .. " going UP")
+					else
+						moon.cast(self):setLabel(self:getName() .. " going DOWN")
+					end
+				end
+			</Script>
+			<!-- Script run when the object is unrealized -->
+			<Script when="unrealize">
+				print(self:getName() .. " unrealized")
+				self:setScriptUpdateInterval(0)
+				moon.cast(self):stop()
+				moon.cast(self):setLabel(self:getName())
+			</Script>
+		</Kinematic>
+	</templates>
+	
+	<!-- Scenario with three instance of the scripted ball and a camera -->
+	<Scenario name="smallest possible">
+		<ScriptedBall name="ball1" pos="-5 0 0"/>
+		<ScriptedBall name="ball2" pos=" 0 0 0"/>
+		<ScriptedBall name="ball3" pos=" 5 0 0"/>
+		<Camera name="camera" pos="0 -30 5"/>
+	</Scenario>
+</moon>

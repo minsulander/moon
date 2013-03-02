@@ -1,0 +1,65 @@
+$#include <moon/objects/Camera.h>
+
+namespace moon {
+
+	/// A simulation object that is a controllable camera 
+    class Camera : public KinematicObject {
+	public:
+		enum CameraLimit {
+			MIN_ROLL,
+			MAX_ROLL,
+			MIN_PITCH,
+			MAX_PITCH,
+			MIN_YAW,
+			MAX_YAW,
+			MIN_FORWARD,
+			MAX_FORWARD,
+			MIN_RIGHT,
+			MAX_RIGHT,
+			MIN_UP,
+			MAX_UP
+		};
+		
+		enum TrackMode {
+			NONE,
+			POINT,
+			FOLLOW,
+			CHASE,
+			CHASE_HEADING
+		};
+		
+		const bool isActive();
+		void activate();
+
+		void setPerspective(const double fovy, const double aspect, const double nearclip=-1, const double farclip=-1);
+		void getPerspective(double& fovy, double& aspect, double& nearclip, double& farclip);
+		double getFOV();
+		double getAspect();
+		double getNearClip();
+		double getFarClip();
+		
+		void setFree(const bool flag);
+		const bool isFree();
+		void setLimit(CameraLimit limit, const double value);
+		const double getLimit(CameraLimit limit);
+		void track(BaseObject *target);
+		void track(BaseObject *target, TrackMode mode);
+		BaseObject* getTrackTarget();
+		TrackMode getTrackMode() const;
+		void setTrackParameters(const double distance, const double azimuth, const double elevation);
+		double getTrackDistance() const;
+		double getTrackAzimuth() const;
+		double getTrackElevation() const;
+		void setHideWhenActive(const bool flag);
+		bool hidesWhenActive() const;
+		void setMove2D(const bool flag);
+		bool getMove2D() const;
+		void setPivot(const osg::Vec3& pivot);
+		const osg::Vec3& getPivot() const;
+
+		void setInfoLevel(const int level);
+		int getInfoLevel() const;
+		osg::Node* getHUD();
+	};
+	
+}

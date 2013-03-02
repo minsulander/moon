@@ -1,0 +1,12 @@
+$#include <moon/NetworkGame.h>
+
+namespace moon {
+
+	class NetworkGame : public FactoryProduct {
+	public:
+		const std::string& getName();
+		const std::string& getScenarioName();
+		const double getGameTime();
+	};
+	
+}

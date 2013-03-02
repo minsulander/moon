@@ -1,0 +1,32 @@
+<moon>
+	<templates>
+		<Kinematic name="Cow">
+			<Model file="cow.osg" xforward="true"/>
+			<Script name="cowscript" file="testscript_cow.lua"/>
+			<param name="speed" value="1"/>
+		</Kinematic>
+	</templates>
+	
+	<Scenario name="testscript">
+		<Script file="testscript.lua"/>
+		<Script when="realize">
+			mdraw.notify("Us cows shall keep an eye on you!")
+			mdraw.notify("Don't you dare run away from us!")
+		</Script>
+
+		<Cow name="cow" pos="0,0,10"/>
+		<Cow name="cow2" pos="10,5,10">
+			<param name="speed" value="0.5"/>
+		</Cow>
+		<Cow name="cow3" pos="-10,5,10">
+			<param name="speed" value="3"/>
+		</Cow>
+		<Camera pos="0,-70,30" att="0,-13,0" free="true"/>
+
+		<Static name="ground" pos="0,0,-3" tag="noselect">
+			<Geometry>
+				<plane normal="0,0,1"/>
+			</Geometry>
+		</Static>
+	</Scenario>
+</moon>
